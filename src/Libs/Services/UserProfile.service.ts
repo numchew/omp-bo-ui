@@ -44,6 +44,7 @@ class UserProfile extends HttpClient implements IUserProfileService {
         username: username,
         password: password,
       });
+      console.log(response);
 
       if (response.status === undefined) {  //server failure
         throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
