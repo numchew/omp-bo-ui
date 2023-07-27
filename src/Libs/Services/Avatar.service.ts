@@ -9,22 +9,23 @@ export interface IAvatarService {
     getContentAllPart: (part: string) => Promise<IAvatar[]>;
     getContent: (id: string) => Promise<IAvatar>;
     deleteContent: (id: string) => Promise<Boolean>;
+    uploads: (logo: File | null, thumb: (File | null)[], icon: (File | null)[]) => Promise<any>;
 }
 
 class AvatarService extends HttpClient implements IAvatarService {
-    constructor() {
+    /* constructor() {
         super();
-    }
-    public async create(avatar: Partial<IAvatar>) {
+    } */
+    public async create(avatar: Partial<IAvatar>): Promise<IAvatar> {
         try {
             const url = `${env.APP_API_HOST}/avatars`;
             const response = await this.post(url, avatar);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IAvatar;
         } catch (e) {
@@ -37,11 +38,11 @@ class AvatarService extends HttpClient implements IAvatarService {
             const url = `${env.APP_API_HOST}/avatars/${id}`;
             const response = await this.patch(url, { ...avatar });
             if (response.status === undefined) {  //server failure
-                throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }
 
             if (!response.data) {
-                throw "ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
             }
             const data: any = response.data;
             return data;
@@ -56,11 +57,11 @@ class AvatarService extends HttpClient implements IAvatarService {
             const url = `${env.APP_API_HOST}/avatars/part/${part}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IAvatar[];
         } catch (e) {
@@ -69,16 +70,16 @@ class AvatarService extends HttpClient implements IAvatarService {
     }
 
     //หาเฉพาะชิ้น
-    public async getContent(id: string) {
+    public async getContent(id: string): Promise<IAvatar> {
         try {
             const url = `${env.APP_API_HOST}/avatars/${id}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IAvatar;
         } catch (e) {
@@ -91,11 +92,11 @@ class AvatarService extends HttpClient implements IAvatarService {
             const url = `${env.APP_API_HOST}/avatars/${id}`;
             const response = await this.delete(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return Boolean(response.data);
         } catch (e) {
@@ -105,7 +106,7 @@ class AvatarService extends HttpClient implements IAvatarService {
 
     //--------------------------------------------------//
     //--------------------------------------------------//
-    public async uploads(logo: File | null, thumb: (File | null)[], icon: (File | null)[]) {
+    public async uploads(logo: File | null, thumb: (File | null)[], icon: (File | null)[]): Promise<any> {
         try {
             var formData = new FormData();
             if (logo !== null) {
@@ -126,19 +127,20 @@ class AvatarService extends HttpClient implements IAvatarService {
             options.headers = { 'Content-Type': 'multipart/form-data' }
             const response = await this.post(`${env.APP_API_HOST}/avatars/uploads`, formData, options);
             if (!response.data) {
-                throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
             }
             return response.data;
         } catch (e) {
-            throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+            throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
         }
     }
     //--------------------------------------------------//
     //--------------------------------------------------//
 }
 
-export default new AvatarService();
+const service = new AvatarService();
+export default service;

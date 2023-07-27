@@ -39,7 +39,7 @@ export function CollabDetail() {
                 setContentD(JSON.parse(JSON.stringify(res)));
             }).catch((e) => { });
         }
-    }, []);
+    }, [id]);
 
     /* useEffect(() => {
         const keys1 = Object.keys(data) as (keyof ICollab)[];

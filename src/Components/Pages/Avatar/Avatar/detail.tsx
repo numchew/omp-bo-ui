@@ -44,7 +44,7 @@ export function AvatarDetail() {
         } else {
             //new avatar
         }
-    }, [])
+    }, [id])
     useEffect(() => {
         const keys1 = Object.keys(data) as (keyof IAvatar)[];
         //const keys2 = Object.keys(contentD) as (keyof IAvatar)[];
@@ -60,7 +60,7 @@ export function AvatarDetail() {
             MergeImages(`${env.APP_API_HOST}/${data.icon}`, "", mergedCanvasRef.current, (url) => {
 
             });
-    }, [data]);
+    }, [data, contentD]);
 
 
     //--------------------------------------------------//

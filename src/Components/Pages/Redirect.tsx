@@ -15,7 +15,7 @@ export default function Redirect() {
             navigate("/login");
         }
         /* navigate("/error"); */
-    }, [isLogin]);
+    }, [isLogin, navigate]);
 
     return (
         <Loading open={true}></Loading>

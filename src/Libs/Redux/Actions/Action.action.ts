@@ -33,4 +33,5 @@ class Action {
 
 }
 
-export default new Action();
+const actionInstance = new Action();
+export default actionInstance;

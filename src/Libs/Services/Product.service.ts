@@ -13,19 +13,19 @@ export interface IProductService {
 
 class ProductService extends HttpClient implements IProductService {
     [x: string]: any;
-    constructor() {
+    /* constructor() {
         super();
-    }
+    } */
     public async create(color: Partial<IProduct>) {
         try {
             const url = `${env.APP_API_HOST}/products`;
             const response = await this.post(url, color);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IProduct;
         } catch (e) {
@@ -38,11 +38,11 @@ class ProductService extends HttpClient implements IProductService {
             const url = `${env.APP_API_HOST}/products`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IProduct[];
         } catch (e) {
@@ -54,11 +54,11 @@ class ProductService extends HttpClient implements IProductService {
             const url = `${env.APP_API_HOST}/products/${id}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IProduct;
         } catch (e) {
@@ -80,11 +80,11 @@ class ProductService extends HttpClient implements IProductService {
             const url = `${env.APP_API_HOST}/products/${id}`;
             const response = await this.delete(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return Boolean(response.data);
         } catch (e) {
@@ -93,5 +93,5 @@ class ProductService extends HttpClient implements IProductService {
     }
 }
 
-
-export default new ProductService();
+const service = new ProductService();
+export default service;

@@ -11,20 +11,20 @@ export interface ICustomerService {
 
 class CustomerService extends HttpClient implements ICustomerService {
     [x: string]: any;
-    constructor() {
+    /* constructor() {
         super();
-    }
+    } */
 
     public async getContentAll(): Promise<ICustomer[]> {
         try {
             const url = `${env.APP_API_HOST}/customers`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as ICustomer[];
         } catch (e) {
@@ -36,11 +36,11 @@ class CustomerService extends HttpClient implements ICustomerService {
             const url = `${env.APP_API_HOST}/customers/${id}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as ICustomer;
         } catch (e) {
@@ -58,5 +58,5 @@ class CustomerService extends HttpClient implements ICustomerService {
     }
 }
 
-
-export default new CustomerService();
+const service = new CustomerService();
+export default service;

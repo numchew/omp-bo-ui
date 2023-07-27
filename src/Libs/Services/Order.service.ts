@@ -11,20 +11,20 @@ export interface IOrderService {
 
 class OrderService extends HttpClient implements IOrderService {
     [x: string]: any;
-    constructor() {
+    /* constructor() {
         super();
     }
-
+ */
     public async getContentAll(): Promise<IOrder[]> {
         try {
             const url = `${env.APP_API_HOST}/orders`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IOrder[];
         } catch (e) {
@@ -36,11 +36,11 @@ class OrderService extends HttpClient implements IOrderService {
             const url = `${env.APP_API_HOST}/orders/${id}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IOrder;
         } catch (e) {
@@ -58,5 +58,5 @@ class OrderService extends HttpClient implements IOrderService {
     }
 }
 
-
-export default new OrderService();
+const service = new OrderService();
+export default service;

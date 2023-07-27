@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography } from '@mui/material';
-import { getSize } from '../../../../Libs/Constants/size';
 import { ColorAvatar } from '../../../Common/ColorSelect';
 import { IColor } from '../../../../Libs/Models/IColor.model';
 import ColorService from '../../../../Libs/Services/Color.service';

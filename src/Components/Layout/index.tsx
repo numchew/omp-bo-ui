@@ -39,7 +39,7 @@ export default function Layout(props: IProps) {
     if (!isLogin) {
       navigate("/login");
     }
-  }, [isLogin]);
+  }, [isLogin, navigate]);
 
   // const [openAdd, setOpenAdd] = useState(false);
   const [openNewPass, setOpenNewPass] = useState(false);

@@ -11,23 +11,24 @@ export interface IUserProfileService {
   isUserLogin: () => boolean;
   getUserName: () => string | null;
   getAccessToken: () => string | null;
+  forgotPassword: (email: string) => Promise<string>
 }
 
 class UserProfile extends HttpClient implements IUserProfileService {
-  constructor() {
+  /* constructor() {
     super();
-  }
+  } */
 
   public async create(profile: IProfile): Promise<IProfile> {
     try {
       const url = `${env.APP_API_HOST}/auth/register`;
       const response = await this.post(url, profile);
       if (response.status === undefined) {  //server failure
-        throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+        throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
       }
 
       if (!response.data) {
-        throw "ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
+        throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
       }
       const data: any = response.data;
       return data;
@@ -45,16 +46,16 @@ class UserProfile extends HttpClient implements IUserProfileService {
       });
 
       if (response.status === undefined) {  //server failure
-        throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+        throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
       }
 
       if (!response.data) {
-        throw "บัญชีหรือรหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง";
+        throw new Error("บัญชีหรือรหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
       }
 
       const data: any = response.data;
       if (data.status === "error") {
-        throw "ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง";
+        throw new Error("ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
       }
 
       localStorage.setItem("accessToken", data.accessToken);
@@ -71,7 +72,7 @@ class UserProfile extends HttpClient implements IUserProfileService {
     }
   }
 
-  public logout() {
+  public logout(): void {
     console.log("logout");
     localStorage.setItem("accessToken", "");
     localStorage.clear();
@@ -102,11 +103,11 @@ class UserProfile extends HttpClient implements IUserProfileService {
     const response = await this.post(url, { username: email });
 
     if (!response.status) {
-      throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+      throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
     }
     if (response.status >= 400) {
       //403, 404
-      throw "ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง";
+      throw new Error("ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
     }
     return "สำเร็จ กรุณาตรวจสอบอีเมล";
   }
@@ -120,12 +121,12 @@ class UserProfile extends HttpClient implements IUserProfileService {
       });
 
       if (!response.data) {   //server failure
-        throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+        throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
       }
       const data = response.data as any;
       if (data.status >= 400) {
         //403, 404
-        throw "ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง";
+        throw new Error("ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
       }
       return "สำเร็จ";
     } catch (e) {
@@ -134,4 +135,5 @@ class UserProfile extends HttpClient implements IUserProfileService {
   }
 }
 
-export default new UserProfile();
+const service = new UserProfile();
+export default service;

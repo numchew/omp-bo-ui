@@ -35,7 +35,7 @@ let persistedReducer = persistReducer(persistConfig, rootReducer);
 
 //const middlewareList = [thunk, logger]
 
-export default () => {
+const createReduxStore = () => {
   const store: Store<any, any> = configureStore({
     reducer: persistedReducer,
     //devTools: process.env.NODE_ENV !== 'production',
@@ -45,5 +45,5 @@ export default () => {
   const persistor = persistStore(store);
   return { store, persistor };
 };
-
+export default createReduxStore;
 export type RootStore = ReturnType<typeof rootReducer>;

@@ -12,9 +12,9 @@ export interface IColorService {
 }
 
 class ColorService extends HttpClient implements IColorService {
-    constructor() {
+    /* constructor() {
         super();
-    }
+    } */
     public async create(color: Partial<IColor>, thumb: File | null) {
         try {
             const formData = new FormData();
@@ -30,15 +30,15 @@ class ColorService extends HttpClient implements IColorService {
             const response = await this.post(`${env.APP_API_HOST}/colors`, formData, options);
 
             if (!response.data) {
-                throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
             }
             return response.data as IColor;
         } catch (e) {
-            throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+            throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
         }
     }
 
@@ -47,11 +47,11 @@ class ColorService extends HttpClient implements IColorService {
             const url = `${env.APP_API_HOST}/colors/id`;
             const response = await this.patch(url, { ...color, file: thumb });
             if (response.status === undefined) {  //server failure
-                throw "ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }
 
             if (!response.data) {
-                throw "ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
+                throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
             }
             const data: any = response.data;
             return data;
@@ -65,11 +65,11 @@ class ColorService extends HttpClient implements IColorService {
             const url = `${env.APP_API_HOST}/colors`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IColor[];
         } catch (e) {
@@ -82,11 +82,11 @@ class ColorService extends HttpClient implements IColorService {
             const url = `${env.APP_API_HOST}/colors/${id}`;
             const response = await this.get(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return response.data as IColor;
         } catch (e) {
@@ -99,11 +99,11 @@ class ColorService extends HttpClient implements IColorService {
             const url = `${env.APP_API_HOST}/colors/${id}`;
             const response = await this.delete(url);
             if (!response.data) {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw "ไม่พบข้อมูล";
+                throw new Error("ไม่พบข้อมูล");
             }
             return Boolean(response.data);
         } catch (e) {
@@ -112,4 +112,5 @@ class ColorService extends HttpClient implements IColorService {
     }
 }
 
-export default new ColorService();
+const service = new ColorService();
+export default service;

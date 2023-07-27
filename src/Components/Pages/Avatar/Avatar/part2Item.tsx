@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box';
-import { getSize } from '../../../../Libs/Constants/size';
 import Typography from '@mui/material/Typography';
 import { PartDefault } from './partDefault';
 

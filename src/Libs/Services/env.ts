@@ -14,7 +14,7 @@ const {
   APP_API_SECRET,
 } = envSources;
 
-export default {
+const environmentConfig = {
   PORT: PORT,
   APP_BASE_NAME: REACT_APP_BASE_NAME,
   APP_TITLE: REACT_APP_TITLE,
@@ -24,3 +24,4 @@ export default {
 
   APP_API_SECRET: APP_API_SECRET,
 };
+export default environmentConfig;
