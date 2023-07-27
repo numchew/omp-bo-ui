@@ -7,7 +7,7 @@ import { TableList } from '.';
 import { PPagination } from '../../../Common';
 import AvatarService from '../../../../Libs/Services/Avatar.service';
 import Action from '../../../../Libs/Redux/Actions/Action.action';
-import { IAvatar, DAvatar, DThumbnail } from '../../../../Libs/Models/IAvatar.model';
+import { IAvatar, DAvatar } from '../../../../Libs/Models/IAvatar.model';
 
 export function AvatarList() {
     const navigate = useNavigate();

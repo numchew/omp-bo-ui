@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { ThumbnailContainer, ThumbnailView } from '../../../Common/Thumbnail';
 import Box from '@mui/material/Box';
 import { getSize } from '../../../../Libs/Constants/size';
 import Typography from '@mui/material/Typography';
 import { PartDefault } from './partDefault';
-import { IThumbnail } from '../../../../Libs/Models/IAvatar.model';
 
 interface IDefault {
     onReset?: (index: number) => void;
@@ -30,12 +28,12 @@ interface IDefault {
 
 
 export const Part2Item = (props: IDefault) => {
-    const size = getSize(props.part);
-    const [isUpdated, setIsUpdate] = useState(false);
+    //const size = getSize(props.part);
+    //const [isUpdated, setIsUpdate] = useState(false);
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onUpdate1 = (value: File | null) => {
-        setIsUpdate(true);
+        //setIsUpdate(true);
         props.onUpdate && props.onUpdate(value, 0)
     }
     const onReset1 = (index: number = 0) => {
@@ -43,7 +41,7 @@ export const Part2Item = (props: IDefault) => {
     }
 
     const onUpdate2 = (value: File | null) => {
-        setIsUpdate(true);
+        //setIsUpdate(true);
         props.onUpdate && props.onUpdate(value, 1)
     }
     const onReset2 = (index: number = 1) => {

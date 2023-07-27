@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -15,7 +14,6 @@ import {
 
 import HTable, { IHeadTabel } from '../../../Layout/HTable';
 import { OrderType, stableSort } from '../../../../Libs/Extensions/Number.extension';
-import Action from '../../../../Libs/Redux/Actions/Action.action';
 import { IColor } from '../../../../Libs/Models/IColor.model';
 import env from '../../../../Libs/Services/env';
 
@@ -39,8 +37,6 @@ interface IProps {
 
 export const TableList = (props: IProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 
   const [data, setData] = useState<IColor[]>();
@@ -63,8 +59,6 @@ export const TableList = (props: IProps) => {
       setOrderType(OrderType.Asc);
       setData(stableSort(props.data, OrderType.Asc, id));
     }
-
-    setOrderBy(id);
   }
   //--------------------------------------------------//
   //--------------------------------------------------//

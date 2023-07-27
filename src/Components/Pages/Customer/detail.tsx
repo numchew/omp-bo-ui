@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { TableContainer, Paper, Table, Box, TableBody, TableRow, TableCell, TableFooter, Grid } from '@mui/material';
+import { Button, Typography, TableContainer, Paper, Table, Box, TableBody, TableRow, TableCell } from '@mui/material';
 import HTable from '../../Layout/HTable';
 import { IHeadTabel } from '../../Layout/HTable';
-import { RootStore } from '../../../Libs/Redux/index';
-import { IOrderProduct, IOrder } from '../../../Libs/Models/IOrder.model';
 import { day } from '../../../Libs/Extensions/Day.extension';
-import OrderService from '../../../Libs/Services/Order.service';
-import { OrderStatus } from '../../../Libs/Constants/enum'
 import { TStatus } from '../../Common';
 import { ICustomer, IAvatar, DCustomer } from '../../../Libs/Models/ICustomer.model';
-import Action from '../../../Libs/Redux/Actions/Action.action';
 import env from '../../../Libs/Services/env';
 import CustomerService from '../../../Libs/Services/Customer.service';
+import { IOrder } from '../../../Libs/Models/IOrder.model';
 
 
 const headerCells: IHeadTabel[] = [
@@ -32,8 +25,6 @@ const maxWidth = 700
 export function CustomerDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const dispatch = useDispatch();
-    //const customer = useSelector((state: RootStore) => state.customer);
     const [data, setData] = useState<ICustomer>(DCustomer());
 
     useEffect(() => {
@@ -42,7 +33,7 @@ export function CustomerDetail() {
                 setData(res);
             }).catch((e) => { });
         }
-    }, [])
+    }, [id])
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onClickView = (value: IOrder) => {
@@ -74,7 +65,7 @@ export function CustomerDetail() {
                 {data.avatars.map((row: IAvatar, index) => (
                     <Paper className='flex-c-m' elevation={0}
                         sx={{ width: 140, height: 200, backgroundColor: 'rgba(0,0,0,0)' }}>
-                        <img src={`${env.APP_API_HOST}/${row.url_bg}`} width={120} height={'auto'} />
+                        <img alt="img" src={`${env.APP_API_HOST}/${row.url_bg}`} width={120} height={'auto'} />
                     </Paper>
                 ))}
             </Box>

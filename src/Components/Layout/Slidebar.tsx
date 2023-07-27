@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  Alert,
   Box,
   Collapse,
   Divider,
@@ -9,10 +8,7 @@ import {
   FormControl,
   List,
   ListItemButton,
-  ListItemIcon,
-  ListItemText,
   RadioGroup,
-  Snackbar,
   Toolbar,
   Typography,
 } from "@mui/material";

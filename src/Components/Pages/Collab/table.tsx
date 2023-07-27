@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import {
   Button,
   Checkbox,
@@ -43,7 +43,6 @@ interface IProps {
 export const TableList = (props: IProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 
   const [data, setData] = useState<ICollab[]>();
@@ -66,8 +65,6 @@ export const TableList = (props: IProps) => {
       setOrderType(OrderType.Asc);
       setData(stableSort(props.data, OrderType.Asc, id));
     }
-
-    setOrderBy(id);
   }
   //--------------------------------------------------//
   //--------------------------------------------------//
@@ -81,7 +78,7 @@ export const TableList = (props: IProps) => {
               <TableCell align="left">{row._id}</TableCell>
               <TableCell align="left">
                 <Paper className='flex-c-m' elevation={1}>
-                  <img src={`${env.APP_API_HOST}/${row.icon}`} alt="Image" width={50} height={50} />
+                  <img src={`${env.APP_API_HOST}/${row.icon}`} alt="img" width={50} height={50} />
                 </Paper>
               </TableCell>
               <TableCell align="left">{row.name}</TableCell>

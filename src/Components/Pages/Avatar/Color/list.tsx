@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TableList } from '.';
 import { PPagination } from '../../../Common';
 import ColorService from '../../../../Libs/Services/Color.service';
-import { IColor, DColor } from '../../../../Libs/Models/IColor.model';
-import Action from '../../../../Libs/Redux/Actions/Action.action';
+import { IColor } from '../../../../Libs/Models/IColor.model';
 
 export function ColorList() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [curPage, setCurPage] = useState(1);
-    const [dataServ, setDataServ] = useState<IColor[]>([]);
     const [data, setData] = useState<IColor[]>([]);
 
     useEffect(() => {
         ColorService.getContentAll().then(res => {
-            setDataServ(res);
             setData(res);
         }).catch((e) => { });
     }, [])

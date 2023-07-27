@@ -38,7 +38,7 @@ interface IProps {
 export const TableList = (props: IProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [orderBy, setOrderBy] = useState("index");
+  //const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 
   const [data, setData] = useState<IAvatar[]>();
@@ -60,7 +60,7 @@ export const TableList = (props: IProps) => {
       setOrderType(OrderType.Asc);
       setData(stableSort(props.data, OrderType.Asc, id));
     }
-    setOrderBy(id);
+    //setOrderBy(id);
   }
   //--------------------------------------------------//
   //--------------------------------------------------//

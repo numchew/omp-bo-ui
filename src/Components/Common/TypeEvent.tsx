@@ -18,11 +18,9 @@ interface IProps {
 //--------------------------------------------------//
 //--------------------------------------------------//
 export const TypeEvent = (props: IProps) => {
-    const [type, setType] = React.useState(props.value);
 
     const onChangeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setType(e.target.value);
         props.onChangeEventHandler && props.onChangeEventHandler(e.target.value)
     }
 

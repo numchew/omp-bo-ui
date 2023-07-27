@@ -4,25 +4,6 @@ import { Button, Typography } from '@mui/material';
 import { IOrderProduct } from '../../../Libs/Models/IOrder.model';
 import env from '../../../Libs/Services/env';
 import { saveAs } from "file-saver";
-import axios from 'axios';
-
-function getStylePrint(pd: string) {
-    var sty = { style: "" };
-    switch (pd) {
-        /* case 'sticker': return { style: "max-width: 55%; height: auto;" };;
-        case 'mug': return { style: "max-width: 67%; height: auto; transform: rotate(-90deg);" };
-        case 'shirt': return { style: "max-width: 100%; height: auto;" };
-        case 'totebag': return { style: "max-width: 85%; height: auto;" }; */
-        case 'sticker': sty = { style: "max-width: 55%; height: auto;" }; break;
-        case 'mug': sty = { style: "max-width: 67%; height: auto; transform: rotate(-90deg);  position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)" }; break;
-        case 'shirt': sty = { style: "max-width: 100%; height: auto;" }; break;
-        case 'totebag': sty = { style: "max-width: 85%; height: auto;" }; break;
-    }
-    //position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)
-    //sty.style = sty.style.concat(" position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)");
-    return sty;
-}
-
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -47,7 +28,7 @@ interface Props {
 const PreviewImageComponent: React.FC<Props> = ({ imageUrl }) => {
     return (
         <div style={{ maxWidth: 'auto', height: '700px', overflow: 'hidden' }}>
-            <img src={imageUrl} alt="Printed Image"
+            <img src={imageUrl} alt="img"
                 style={{
                     width: 'auto', height: '600px',
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'

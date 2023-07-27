@@ -41,7 +41,7 @@ export function OrderDetail() {
                 setData(JSON.parse(JSON.stringify(res)));
             }).catch((e) => { });
         }
-    }, [])
+    }, [id])
 
     React.useEffect(() => {
         console.log(data);

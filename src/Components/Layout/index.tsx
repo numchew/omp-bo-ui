@@ -41,7 +41,7 @@ export default function Layout(props: IProps) {
     }
   }, [isLogin]);
 
-  const [openAdd, setOpenAdd] = useState(false);
+  // const [openAdd, setOpenAdd] = useState(false);
   const [openNewPass, setOpenNewPass] = useState(false);
   //--------------------------------------------------//
   //--------------------------------------------------//
@@ -62,7 +62,7 @@ export default function Layout(props: IProps) {
       <Outlet />
 
       <IconButton
-        onClick={() => setOpenAdd(true)}
+        //onClick={() => setOpenAdd(true)}
         sx={{
           position: "fixed",
           bottom: 16,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, DragEvent, ChangeEvent, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, DragEvent, ChangeEvent, forwardRef } from 'react';
 import { Button, Box, Paper, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
@@ -84,18 +84,7 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
     //const [thumbnail, setThumbnail] = useState<File | null>(null);
     //const [icon, setIcon] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string>("");
-    const [isUpdated, setIsUpdated] = useState(false);
-
-    /* useImperativeHandle(ref, () => ({
-        remove: () => {
-            //setThumbnail(null);
-            //setIcon(null);
-            //props.onUpdate?.(defaultImage);
-            //setPreviewImage(defaultImage);
-
-            // props.onReset?.(defaultImage ? defaultImage : "");
-        }
-    }), []); */
+    //const [isUpdated, setIsUpdated] = useState(false);
 
     useEffect(() => {
         setPreviewImage(props.src ? props.src : "");
@@ -103,7 +92,7 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
 
     //--------------------------------------------------//
     //--------------------------------------------------//
-    const handleThumbnailChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    /* const handleThumbnailChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             resizeImage(file, props.MAX_WIDTH, props.MAX_HEIGHT, (resizedImage) => {
@@ -112,7 +101,7 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
                 props.onUpdate?.(resizedImage);
             });
         }
-    };
+    }; */
 
     const handleDrop = async (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -121,7 +110,7 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
         }
         const file = event.dataTransfer.files?.[0];
         if (file) {
-            setIsUpdated(true);
+            //setIsUpdated(true);
             ////// resize to icon //////
             /* resizeImage(file, thumbWidth, thumbHeight, (resizedImage) => {
                 setIcon(resizedImage);

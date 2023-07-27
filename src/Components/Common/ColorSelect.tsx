@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, Ref } from 'react';
-import { FormControl, MenuItem, Select, Paper, IconButton, Stack } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
+import { FormControl, MenuItem, Select, IconButton, Stack } from '@mui/material';
 import { IColor } from '../../Libs/Models/IColor.model';
 import { ThumbnailView, ThumbnailViewRef } from './Thumbnail';
 
@@ -72,9 +72,7 @@ interface ColorAvatarProps {
 
 export const ColorAvatar = (props: ColorAvatarProps) => {
     const [cl_id, setColor] = useState(props.color);
-    const [thumbnail, setThumbnail] = useState<File | null>(null);
-    const thumbRef1 = useRef<ThumbnailViewRef>();
-    const thumbRef2 = useRef<ThumbnailViewRef>(null);
+    //const [thumbnail, setThumbnail] = useState<File | null>(null);
 
     useEffect(() => {
         setColor(props.color);
@@ -89,13 +87,11 @@ export const ColorAvatar = (props: ColorAvatarProps) => {
     }
 
     const onUpdateHandler = (value: File | null) => {
-        setThumbnail(value);
+        //setThumbnail(value);
         props.onChangeThumbHandler && props.onChangeThumbHandler(value, props.index);
     }
 
     const onDeleteHandler = () => {
-        /*  thumbRef1.current?.remove();
-         thumbRef2.current?.remove(); */
         //setThumbnail(null);
         //props.onUpdate?.(null);
     }
@@ -110,7 +106,7 @@ export const ColorAvatar = (props: ColorAvatarProps) => {
                 onChangeHandler={onChangeHandler}
                 value={cl_id}
             />
-            {cl_id && cl_id != "" ?
+            {cl_id && cl_id !== "" ?
                 <>
                     <OnView onUpdateHandler={onUpdateHandler}
                         src={props.src}

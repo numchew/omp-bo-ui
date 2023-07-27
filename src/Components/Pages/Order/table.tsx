@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Paper,
@@ -16,7 +15,6 @@ import HTable, { IHeadTabel } from '../../Layout/HTable';
 import { IOrder } from "../../../Libs/Models/IOrder.model";
 import { day } from '../../../Libs/Extensions/Day.extension';
 import { OrderType, stableSort } from '../../../Libs/Extensions/Number.extension';
-import Action from '../../../Libs/Redux/Actions/Action.action';
 
 const headerCells: IHeadTabel[] = [
   { id: "id", label: "ORDER ID", align: "left", sort: true, width: 115 },
@@ -40,7 +38,6 @@ interface IProps {
 
 export const TableList = (props: IProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 

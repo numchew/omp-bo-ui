@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Box, Checkbox, FormControlLabel, Typography, IconButton, Button } from '@mui/material';
+import React from 'react'
+import { Box, Typography, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 interface IProps {

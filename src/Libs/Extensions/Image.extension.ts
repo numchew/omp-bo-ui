@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 import html2canvas from 'html2canvas';
 
 export const resizeImage = (imageFile: File, w: number | undefined, h: number | undefined, callback: (resizedImage: File | null) => void) => {

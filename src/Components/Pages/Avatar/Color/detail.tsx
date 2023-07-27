@@ -24,7 +24,7 @@ export function ColorDetail() {
                 setContentD(JSON.parse(JSON.stringify(res)));
             }).catch((e) => { });
         }
-    }, [])
+    }, [id])
 
     //--------------------------------------------------//
     //--------------------------------------------------//

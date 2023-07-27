@@ -78,7 +78,7 @@ class UserProfile extends HttpClient implements IUserProfileService {
   }
 
   public isUserLogin() {
-    if (localStorage.accessToken && localStorage.accessToken != "") {
+    if (localStorage.accessToken && localStorage.accessToken !== "") {
       const decodedToken = jwtDecode<JwtPayload>(localStorage.accessToken);
       var expirationTime = decodedToken.exp as number * 1000;
       const isTokenExpired = Date.now() > expirationTime;

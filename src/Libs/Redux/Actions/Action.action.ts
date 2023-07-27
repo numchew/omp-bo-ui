@@ -1,5 +1,4 @@
 import ActionType from "../@types/ActionType";
-import IAction from "../@types/IAction";
 
 class Action {
     getOrderDetail = (data: any) => ({

@@ -1,12 +1,4 @@
-import { PlaceOutlined } from '@mui/icons-material';
-import { green } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles'
-import { letterSpacing } from '@mui/system'
-
-/* declare module '@mui/material/styles' {
-
-
-} */
 
 export const primary = '#FF6B38';
 export const secondary = '#395AAD';

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { ThumbnailContainer } from '../../../Common/Thumbnail';
-import Box from '@mui/material/Box';
+import { Box, Typography } from '@mui/material';
 import { getSize } from '../../../../Libs/Constants/size';
-import { ColorSelect, ColorAvatar } from '../../../Common/ColorSelect';
+import { ColorAvatar } from '../../../Common/ColorSelect';
 import { IColor } from '../../../../Libs/Models/IColor.model';
 import ColorService from '../../../../Libs/Services/Color.service';
 import { IThumbnail, DThumbnail } from '../../../../Libs/Models/IAvatar.model';
-import { Typography } from '@mui/material';
 
 interface IDefault {
     onReset?: (index: number) => void;
@@ -22,7 +20,7 @@ interface IDefault {
     count: number;
 }
 export const PartColor = (props: IDefault) => {
-    const size = getSize(props.part);
+    //const size = getSize(props.part);
     const [colorList, SetColorList] = useState<IColor[]>();
 
     //const [newThumb, setThumb] = useState<(File | null)[]>([]);

@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { PPagination } from '../../Common';
-import Action from '../../../Libs/Redux/Actions/Action.action';
 import ProductService from '../../../Libs/Services/Product.service';
-import { IProduct, DProduct } from '../../../Libs/Models/IProduct.model';
+import { IProduct } from '../../../Libs/Models/IProduct.model';
 import { TableList } from '.';
 
 export function ProductList() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const location = useLocation();
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IProduct[]>([]);

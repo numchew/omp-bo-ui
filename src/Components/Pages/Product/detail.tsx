@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { Box, Checkbox, FormControlLabel, Typography, IconButton, Button } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Typography, IconButton } from '@mui/material';
 import { BUpdate, HName, ColorSelect, Search, TStatus, TypeProduct } from '../../Common';
 import { primary } from '../../../Styles/Theme';
 import { Trim } from '../../../Libs/Extensions/String.extension';
@@ -30,7 +30,7 @@ export function ProductDetail() {
             }).catch((e) => { });
         }
 
-    }, []);
+    }, [id]);
 
     function findColor(_id: string) {
         var c = colors?.find(e => e._id === _id);

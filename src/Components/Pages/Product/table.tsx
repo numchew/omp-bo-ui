@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 import {
   Button,
   Checkbox,
@@ -15,7 +14,6 @@ import {
 
 import HTable, { IHeadTabel } from '../../Layout/HTable';
 import { OrderType, stableSort } from '../../../Libs/Extensions/Number.extension';
-import Action from '../../../Libs/Redux/Actions/Action.action';
 import { IProduct } from '../../../Libs/Models/IProduct.model';
 import { TypeIC } from '../../Common';
 
@@ -43,8 +41,6 @@ export const TableList = (props: IProps) => {
   const navigate = useNavigate();
   const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
-
-  const dispatch = useDispatch();
 
   const onClickView = (value: IProduct) => {
     //dispatch(Action.getProductDetail(value));

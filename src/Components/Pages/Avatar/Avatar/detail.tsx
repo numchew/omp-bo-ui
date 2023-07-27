@@ -3,9 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Checkbox, Divider, FormControlLabel, Typography } from '@mui/material';
 import { primary } from '../../../../Styles/Theme';
 import { IAvatar, DThumbnail, DAvatar, IThumbnail } from '../../../../Libs/Models/IAvatar.model';
-import { IColor } from '../../../../Libs/Models/IColor.model';
 import AvatarService from '../../../../Libs/Services/Avatar.service';
-import ColorService from '../../../../Libs/Services/Color.service';
 import { getSize } from '../../../../Libs/Constants/size';
 import { resizeImage, MergeImages, GetFileImages } from '../../../../Libs/Extensions/Image.extension';
 import { BUpdate, TypeEvent, TStatus, HName } from '../../../Common';
@@ -13,12 +11,12 @@ import { PartDefault, Part2Item, PartColor } from './'
 import env from '../../../../Libs/Services/env';
 import { ThumbnailContainer } from '../../../Common/Thumbnail';
 
-function isAddColor(part: string): boolean {
+/* function isAddColor(part: string): boolean {
     if (part.indexOf('hair') > -1) {
         return true;
     }
     return false;
-}
+} */
 
 export function AvatarDetail() {
     const navigate = useNavigate();
@@ -32,7 +30,7 @@ export function AvatarDetail() {
     const [newThumb, setThumb] = useState<(File | null)[]>([]);
     const [newIcon, setIcon] = useState<(File | null)[]>([]);
 
-    const [isUploadImg, setIsUploadImg] = useState(false);
+    //const [isUploadImg, setIsUploadImg] = useState(false);
     const [isUpdated, setUpdated] = useState(false);
     const [isMarge, setIsMarge] = useState(false);
     const mergedCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,7 +47,7 @@ export function AvatarDetail() {
     }, [])
     useEffect(() => {
         const keys1 = Object.keys(data) as (keyof IAvatar)[];
-        const keys2 = Object.keys(contentD) as (keyof IAvatar)[];
+        //const keys2 = Object.keys(contentD) as (keyof IAvatar)[];
         setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
 
         if (data.thumbnail[0] && data.thumbnail[1]) {
@@ -152,7 +150,7 @@ export function AvatarDetail() {
     //--------------------------------------------------//
     ///// Button /////, 
     const onConfirm = async () => {
-        setIsUploadImg(true);
+        //setIsUploadImg(true);
 
         AvatarService.uploads(logo, newThumb, newIcon).then((res: any) => {
             //{ logo: logoUrl, thumbs: fileUrls, icons: iconsUrls };
@@ -173,14 +171,14 @@ export function AvatarDetail() {
                 AvatarService.updateContent(_d_._id, _d_).then((res: any) => {
                     setData(JSON.parse(JSON.stringify(res)));
                     setContentD(JSON.parse(JSON.stringify(res)));
-                    setIsUploadImg(false);
+                    //setIsUploadImg(false);
                     navigate(-1);
                 })
             } else {
                 AvatarService.create(_d_).then((res: any) => {
                     setData(JSON.parse(JSON.stringify(res)));
                     setContentD(JSON.parse(JSON.stringify(res)));
-                    setIsUploadImg(false);
+                    //setIsUploadImg(false);
                     navigate(-1);
 
                 })

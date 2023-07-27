@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
-import { Box, Checkbox, FormControlLabel, Typography, Stack, Grid, Paper, Backdrop, Button } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Typography, Grid, Button } from '@mui/material';
 import { primary } from '../../../Styles/Theme';
 import { ICollab, DCollab } from '../../../Libs/Models/ICollab.model';
 import CollabService from '../../../Libs/Services/Collab.service';
 import { getSize } from '../../../Libs/Constants/size';
 
-import { BUpdate, HName, Loading, Search, TStatus, TypeProduct, TypeIC, ThumbnailContainer, TypeEvent } from '../../Common';
+import { BUpdate, HName, Search, TStatus, TypeIC, ThumbnailContainer, TypeEvent } from '../../Common';
 import { ThumbnailView, ThumbnailViewRef } from '../../Common/Thumbnail';
-import { IThumbnail, DThumbnail } from '../../../Libs/Models/IAvatar.model';
-import env from '../../../Libs/Services/env';
+import { IThumbnail, DThumbnail } from '../../../Libs/Models/IAvatar.model'
 
-import { useDrop } from 'react-dnd';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+/* import { useDrop } from 'react-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'; */
 
 
 
@@ -30,8 +29,8 @@ export function CollabDetail() {
     const [newThumb, setThumb] = useState<(File | null)[]>([]);
     const [newIcon, setIcon] = useState<(File | null)[]>([]);
 
-    const [isUploadImg, setIsUploadImg] = useState(false);
-    const [isUpdated, setUpdated] = useState(false);
+    /* const [isUploadImg, setIsUploadImg] = useState(false);
+    const [isUpdated, setUpdated] = useState(false); */
 
     useEffect(() => {
         if (id) {
@@ -42,11 +41,11 @@ export function CollabDetail() {
         }
     }, []);
 
-    useEffect(() => {
+    /* useEffect(() => {
         const keys1 = Object.keys(data) as (keyof ICollab)[];
         const keys2 = Object.keys(contentD) as (keyof ICollab)[];
-        setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
-    }, [data]);
+        //setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
+    }, [data]); */
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeNameHandler = (value: string) => {
@@ -71,7 +70,7 @@ export function CollabDetail() {
     const onConfirm = async () => {
         //upload icon
         console.log('***** upload ******');
-        setIsUploadImg(true);
+        //setIsUploadImg(true);
         await CollabService.uploads(logo, newThumb, newIcon)
             .then((res: any) => {
                 const _d_ = { ...data };
