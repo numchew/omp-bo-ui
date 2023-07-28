@@ -70,7 +70,6 @@ class CollabService extends HttpClient implements ICollabService {
                     formData.append(`icons`, file);
                 }
             });
-
             const options: AxiosRequestConfig = {}
             options.headers = { 'Content-Type': 'multipart/form-data' }
             const response = await this.post(`${env.APP_API_HOST}/collabs/uploads`, formData, options);

@@ -24,9 +24,7 @@ export function AvatarDetail() {
     const [newThumbBG, setThumbBG] = useState<(File | null)[]>([]);
     const [newIcon, setIcon] = useState<(File | null)[]>([]);
 
-    //const [isUploadImg, setIsUploadImg] = useState(false);
     const [isUpdated, setUpdated] = useState(false);
-    //const [isMarge, setIsMarge] = useState(false);
     const [count, setCount] = useState(1);
     const mergedCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -48,19 +46,21 @@ export function AvatarDetail() {
         const keys1 = Object.keys(data) as (keyof IAvatar)[];
         //const keys2 = Object.keys(contentD) as (keyof IAvatar)[];
         setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
-
+        //handleMergeImages(0)
         /* if (data.thumbnail[0]) {
             setIsMarge(data.thumbnail[0].url !== "" && data.thumbnail[0].bg !== "");
         } else {
             setIsMarge(false);
-        }
+        } */
 
-        if (mergedCanvasRef.current)
+        /*if (mergedCanvasRef.current)
             MergeImages(`${env.APP_API_HOST}/${data.icon}`, "", mergedCanvasRef.current, (url) => {
 
-            }); */
+            }); 
+            handleMergeImages(0)
 
-        console.log(data.thumbnail);
+        console.log(data.thumbnail); */
+        //handleMergeImages(0)
 
     }, [data, contentD]);
     //--------------------------------------------------//
@@ -222,7 +222,6 @@ export function AvatarDetail() {
                 }
             }
             _d_.part = String(body);
-            console.log(_d_);
 
             if (_d_._id !== "") {
                 AvatarService.updateContent(_d_._id, _d_).then((res: any) => {
@@ -256,20 +255,24 @@ export function AvatarDetail() {
     }
 
     const handleMergeImages = async (index: number) => {
-        var url1 = data.thumbnail[index].bg;
-        var url2 = data.thumbnail[index].url;
-        if (url1.indexOf('blob:') < 0) url1 = `${env.APP_API_HOST}/${url1}`;
-        if (url2.indexOf('blob:') < 0) url2 = `${env.APP_API_HOST}/${url2}`;
+        console.log(data.thumbnail);
 
-        console.log(url1, url2);
-        MergeImages(url1, url2, mergedCanvasRef, (url) => {
+        if (data.thumbnail && data.thumbnail.length > 0) {
+            var url1 = data.thumbnail[index].bg;
+            var url2 = data.thumbnail[index].url;
+            if (url1.indexOf('blob:') < 0) url1 = `${env.APP_API_HOST}/${url1}`;
+            if (url2.indexOf('blob:') < 0) url2 = `${env.APP_API_HOST}/${url2}`;
 
-            console.log('....', url);
-            setData((pre) => ({ ...pre, icon: url }));
-            GetFileImages(mergedCanvasRef, (file) => {
-                setLogo(file);
+
+
+            MergeImages(url1, url2, mergedCanvasRef, (url) => {
+                setData((pre) => ({ ...pre, icon: url }));
+                GetFileImages(mergedCanvasRef, (file) => {
+                    setLogo(file);
+                });
             });
-        });
+        }
+
     };
     //--------------------------------------------------//
     const GraphicsView = (part: string) => {

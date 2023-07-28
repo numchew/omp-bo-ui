@@ -21,8 +21,6 @@ export const PartColor = (props: IDefault) => {
     const [colorList, SetColorList] = useState<IColor[]>();
     const [newThumb, setNewThumb] = useState<IThumbnail>(DThumbnail());
     const [isShow, setIsShow] = useState(true);
-    /* const [icon, setICon] = useState<File | null>();
-    const mergedCanvasRef = useRef<HTMLCanvasElement>(null); */
 
     useEffect(() => {
         ColorService.getContentAll().then(res => {
@@ -43,13 +41,19 @@ export const PartColor = (props: IDefault) => {
                 }
             }
         } else {
-            setNewThumb(DThumbnail());
-            setIsShow(true);
+            if (newThumb.url !== "") {
+                setNewThumb(DThumbnail());
+                setIsShow(false);
+            } else {
+                setIsShow(true);
+            }
         }
     }, [props.data, props.count, newThumb]);
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeColor = (color: IColor | null, index: number) => {
+        console.log(props.data.length, index);
+
         if (props.data.length > index && index > -1) {
             props.data[index].color = color?._id ? color._id : "";
             props.onUpdateColor?.(props.data[index], index);

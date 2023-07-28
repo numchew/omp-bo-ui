@@ -21,8 +21,6 @@ class UserProfile extends HttpClient implements IUserProfileService {
 
   public async create(profile: IProfile): Promise<IProfile> {
     try {
-      console.log(env.APP_API_HOST);
-
       const url = `${env.APP_API_HOST}/auth/register`;
       const response = await this.post(url, profile);
       if (response.status === undefined) {  //server failure
@@ -46,7 +44,6 @@ class UserProfile extends HttpClient implements IUserProfileService {
         username: username,
         password: password,
       });
-      console.log(response);
 
       if (response.status === undefined) {  //server failure
         throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");

@@ -57,13 +57,10 @@ export function CollabDetail() {
     //--------------------------------------------------//
     const onConfirm = async () => {
         //upload icon
-        console.log('***** upload ******');
-        //setIsUploadImg(true);
         await CollabService.uploads(logo, newThumb, newIcon)
             .then((res: any) => {
                 const _d_ = { ...data };
                 _d_.icon = logo ? res.logo : _d_.icon;
-
                 var index: number = 0;
                 for (var i = 0; i < _d_.thumbnail.length; i++) {
                     if (_d_.thumbnail[i].url.indexOf('blob:') > -1) {
@@ -73,17 +70,16 @@ export function CollabDetail() {
                     }
                 }
 
-                CollabService.create(data).then(res => {
-                    setData(res);
+                CollabService.create(_d_).then(res => {
+                    setData(JSON.parse(JSON.stringify(res)));
                     navigate(-1);
                 }).catch((e) => { return e });
 
             }).catch((e) => { return []; });
     };
 
-
     const onClear = () => {
-        data.thumbnail = [];
+        setData(pre => ({ ...pre, thumbnail: [] }));
         setThumb([]);
         setIcon([]);
     }
@@ -129,9 +125,6 @@ export function CollabDetail() {
         thumbs[index].url = value ? URL.createObjectURL(value) : "";
         thumbs[index].icon = iconImg ? URL.createObjectURL(iconImg) : "";
         setData((pre) => ({ ...pre, thumbnail: thumbs }));
-
-        console.log(thumbs);
-
     }
     //--------------------------------------------------//
 
@@ -231,7 +224,8 @@ const ThumbAdd = React.forwardRef((props: IThumbAdd, ref) => {
                     disabled={true}
                 />
             ))}
-            <ThumbnailView ref={newRef} id={props.data.length} key={props.data.length}
+            <ThumbnailView ref={newRef}
+                id={props.data ? props.data.length : 0} key={props.data ? props.data.length : 0}
                 VW={60} VH={60}
                 caption={
                     <div className='flex-c-m' style={{ width: 60, height: 60 }}>+</div>

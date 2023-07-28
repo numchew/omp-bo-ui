@@ -19,12 +19,8 @@ interface IDefault {
     count: number;
 }
 export const PartColor2Item = (props: IDefault) => {
-    //const size = getSize(props.part);
     const [colorList, SetColorList] = useState<IColor[]>();
-
-    //const [newThumb, setThumb] = useState<(File | null)[]>([]);
     const [newThumb, setNewThumb] = useState<IThumbnail>(DThumbnail());
-
 
     useEffect(() => {
         ColorService.getContentAll().then(res => {
