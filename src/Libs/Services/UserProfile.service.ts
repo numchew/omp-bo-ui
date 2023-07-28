@@ -21,6 +21,8 @@ class UserProfile extends HttpClient implements IUserProfileService {
 
   public async create(profile: IProfile): Promise<IProfile> {
     try {
+      console.log(env.APP_API_HOST);
+
       const url = `${env.APP_API_HOST}/auth/register`;
       const response = await this.post(url, profile);
       if (response.status === undefined) {  //server failure

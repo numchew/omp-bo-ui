@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Checkbox, Divider, FormControlLabel, Typography } from '@mui/material';
+import { Box, Checkbox, Divider, FormControlLabel, Typography } from '@mui/material';
 import { primary } from '../../../../Styles/Theme';
 import { IAvatar, DThumbnail, DAvatar, IThumbnail } from '../../../../Libs/Models/IAvatar.model';
 import AvatarService from '../../../../Libs/Services/Avatar.service';
@@ -10,13 +10,6 @@ import { BUpdate, TypeEvent, TStatus, HName } from '../../../Common';
 import { PartDefault, Part2Item, PartColor } from './'
 import env from '../../../../Libs/Services/env';
 import { ThumbnailContainer } from '../../../Common/Thumbnail';
-
-/* function isAddColor(part: string): boolean {
-    if (part.indexOf('hair') > -1) {
-        return true;
-    }
-    return false;
-} */
 
 export function AvatarDetail() {
     const navigate = useNavigate();
@@ -28,12 +21,18 @@ export function AvatarDetail() {
 
     const [logo, setLogo] = useState<File | null>(null);
     const [newThumb, setThumb] = useState<(File | null)[]>([]);
+    const [newThumbBG, setThumbBG] = useState<(File | null)[]>([]);
     const [newIcon, setIcon] = useState<(File | null)[]>([]);
 
     //const [isUploadImg, setIsUploadImg] = useState(false);
     const [isUpdated, setUpdated] = useState(false);
-    const [isMarge, setIsMarge] = useState(false);
+    //const [isMarge, setIsMarge] = useState(false);
+    const [count, setCount] = useState(1);
     const mergedCanvasRef = useRef<HTMLCanvasElement>(null);
+
+    useEffect(() => {
+        setCount(body === 'hair' ? 2 : 1);
+    }, [body]);
 
     useEffect(() => {
         if (id) {   //avatar update
@@ -50,8 +49,8 @@ export function AvatarDetail() {
         //const keys2 = Object.keys(contentD) as (keyof IAvatar)[];
         setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
 
-        if (data.thumbnail[0] && data.thumbnail[1]) {
-            setIsMarge(data.thumbnail[0].url !== "" && data.thumbnail[1].url !== "");
+        /* if (data.thumbnail[0]) {
+            setIsMarge(data.thumbnail[0].url !== "" && data.thumbnail[0].bg !== "");
         } else {
             setIsMarge(false);
         }
@@ -59,10 +58,11 @@ export function AvatarDetail() {
         if (mergedCanvasRef.current)
             MergeImages(`${env.APP_API_HOST}/${data.icon}`, "", mergedCanvasRef.current, (url) => {
 
-            });
+            }); */
+
+        console.log(data.thumbnail);
+
     }, [data, contentD]);
-
-
     //--------------------------------------------------//
     //--------------------------------------------------//    
     ///// ACTIVATE, TYPE /////
@@ -75,12 +75,14 @@ export function AvatarDetail() {
     const onChangeActivate = (e: any) => {
         setData((pre) => ({ ...pre, activate: e.target.checked }));
     }
-    const onUpdateColor = (thumbs: IThumbnail[]) => {
+    const onUpdateColor = (thumb: IThumbnail, index: number) => {
+        const thumbs = [...data.thumbnail];
+        thumbs[index] = thumb;
         setData((pre) => ({ ...pre, thumbnail: thumbs }));
     }
     //--------------------------------------------------//
     //--------------------------------------------------//    
-    ///// THUMBNAIL /////
+    ///// RESET -THUMBNAIL /////
     const onResetLogo = (index: number = 0) => {
         setLogo(null);
         setData((pre) => ({ ...pre, icon: contentD.icon }));
@@ -97,18 +99,79 @@ export function AvatarDetail() {
             thumbs[index].icon = "";
         }
         setData((pre) => ({ ...pre, thumbnail: thumbs }));
+        //handleMergeImages(index);
+        // setLogo(null);
+    }
+
+    const onResetThumbBG = (index: number) => {
+        onUpdateThumbBG(null, index);
+        const thumbs = [...data.thumbnail];
+        if (contentD.thumbnail.length > index) {
+            thumbs[index].bg = contentD.thumbnail[index].bg;
+            thumbs[index].icon = contentD.thumbnail[index].icon;
+        } else {
+            thumbs[index].bg = "";
+            thumbs[index].icon = "";
+        }
+        setData((pre) => ({ ...pre, thumbnail: thumbs }));
+        //handleMergeImages(index);
+        //setLogo(null);
     }
 
     //--------------------------------------------------//  
+    //--------------------------------------------------// 
+    ///// UPDATE -THUMBNAIL /////
     const onUpdateLogo = (value: File | null) => {
         setLogo(value);
         setData(pre => ({ ...pre, icon: value ? URL.createObjectURL(value) : "" }));
     }
 
-    const onUpdateThumb = (value: File | null, index: number) => {
-        if (value) {
-            resizeImage(value, size.w, size.h, (resizedImage) => {
-                if (/* !logo &&  */data.icon === "") {
+    const onUpdateThumb = (value: File | null, index: number, color: string = "") => {
+        if (value) {    //add
+            Promise.resolve().then(() => {
+                const th = [...newThumb];
+                if (th.length > index) {
+                    th[index] = value;
+                    setThumb(th);
+                } else {
+                    setThumb([...newThumb, value]);
+                }
+
+            }).then(() => { generateIcon(value, index, color, true); })
+        } else {   //remove
+            const th = [...newThumb];
+            th.splice(index, 1);
+            setThumb(th);
+
+            const thumb = [...data.thumbnail];
+            thumb.splice(index, 1);
+            setData((pre) => ({ ...pre, thumbnail: thumb }));
+        }
+    }
+    const onUpdateThumbBG = (value: File | null, index: number, color: string = "") => {
+        if (value) {    //add
+            Promise.resolve().then(() => {
+                const th = [...newThumbBG];
+                if (th.length > index) {
+                    th[index] = value;
+                    setThumbBG(th);
+                } else { setThumbBG([...newThumbBG, value]); }
+            }).then(() => generateIcon(value, index, color, false))
+        } else {    //remove
+            const th = [...newThumbBG];
+            th.splice(index, 1);
+            setThumbBG(th);
+
+            const thumb = [...data.thumbnail];
+            thumb.splice(index, 1);
+            setData((pre) => ({ ...pre, thumbnail: thumb }));
+        }
+    }
+
+    const generateIcon = (value: File, index: number, color: string, isURL: boolean) => {
+        resizeImage(value, size.w, size.h, (resizedImage) => {
+            if (count === 1) {
+                if (data.icon === "") {
                     onUpdateLogo(resizedImage);
                 }
                 const ic = [...newIcon];
@@ -118,40 +181,33 @@ export function AvatarDetail() {
                 } else {
                     setIcon([...newIcon, resizedImage]);
                 }
-                onUpdateImage_Data(value, index, resizedImage);
-            });
-
-            const th = [...newThumb];
-            if (th.length > index) {
-                th[index] = value;
-                setThumb(th);
             } else {
-                setThumb([...newThumb, value]);
+
             }
-        } else {
-            const th = [...newThumb];
-            th.splice(index, 1);
-            setThumb(th);
-        }
+            onUpdateImage_Data(value, index, resizedImage, color, isURL);
+        });
     }
 
-    const onUpdateImage_Data = (value: File | null, index: number, iconImg: File | null) => {
+    const onUpdateImage_Data = (value: File | null, index: number, iconImg: File | null, color: string, isURL: boolean) => {
         const thumbs = [...data.thumbnail];
         if (!thumbs[index]) {
             thumbs[index] = DThumbnail();
         }
-
-        thumbs[index].url = value ? URL.createObjectURL(value) : "";
+        isURL ? thumbs[index].url = value ? URL.createObjectURL(value) : ""
+            : thumbs[index].bg = value ? URL.createObjectURL(value) : "";
         thumbs[index].icon = iconImg ? URL.createObjectURL(iconImg) : "";
+        thumbs[index].color = color;
         setData((pre) => ({ ...pre, thumbnail: thumbs }));
-    }
 
+        if (thumbs[index].url !== "" && thumbs[index].bg !== "") {
+            handleMergeImages(index);
+        }
+    }
     //--------------------------------------------------//
     //--------------------------------------------------//
     ///// Button /////, 
     const onConfirm = async () => {
         //setIsUploadImg(true);
-
         AvatarService.uploads(logo, newThumb, newIcon).then((res: any) => {
             //{ logo: logoUrl, thumbs: fileUrls, icons: iconsUrls };
             const _d_ = { ...data };
@@ -166,6 +222,7 @@ export function AvatarDetail() {
                 }
             }
             _d_.part = String(body);
+            console.log(_d_);
 
             if (_d_._id !== "") {
                 AvatarService.updateContent(_d_._id, _d_).then((res: any) => {
@@ -198,22 +255,26 @@ export function AvatarDetail() {
         navigate(-1);
     }
 
-    const handleMergeImages = async () => {
-        var url1 = data.thumbnail[1].url;
-        var url2 = data.thumbnail[0].url;
+    const handleMergeImages = async (index: number) => {
+        var url1 = data.thumbnail[index].bg;
+        var url2 = data.thumbnail[index].url;
         if (url1.indexOf('blob:') < 0) url1 = `${env.APP_API_HOST}/${url1}`;
         if (url2.indexOf('blob:') < 0) url2 = `${env.APP_API_HOST}/${url2}`;
 
+        console.log(url1, url2);
         MergeImages(url1, url2, mergedCanvasRef, (url) => {
+
+            console.log('....', url);
             setData((pre) => ({ ...pre, icon: url }));
             GetFileImages(mergedCanvasRef, (file) => {
                 setLogo(file);
-            })
+            });
         });
     };
     //--------------------------------------------------//
     const GraphicsView = (part: string) => {
         switch (part) {
+            ////////////////////////////////////
             case "background": return (
                 <>
                     <Box>
@@ -222,45 +283,49 @@ export function AvatarDetail() {
                             width={150} height={150}
                             style={{ border: '1px solid black', display: 'block' }}
                         >
-                            <img src={data.icon.indexOf("blob:") > -1 ? data.icon : `${env.APP_API_HOST}/${data.icon}`} alt="icon" />
                         </canvas>
-                        {/*  {`${env.APP_API_HOST}/${data.icon}`}
-                {data.icon && <img src={data.icon.indexOf("blob:") > -1 ? data.icon : `${env.APP_API_HOST}/${data.icon}`} alt="icon" />}
-                 */}
+                        {/* 
                         {isMarge ? <Box sx={{ py: 1 }}>
                             <Button variant="contained" sx={{ width: 150 }}
                                 color='info'
-                                onClick={handleMergeImages}>
+                                onClick={() => handleMergeImages(0)}>
                                 <Typography variant="body1">Merge Images</Typography>
                             </Button>
-                        </Box> : <></>}
+                        </Box> : <></>} */}
                     </Box>
-
                     <Part2Item part={part}
                         onReset={onResetThumb}
+                        onResetBG={onResetThumbBG}
                         onUpdate={onUpdateThumb}
+                        onUpdateBG={onUpdateThumbBG}
                         src={data.thumbnail[0] && data.thumbnail[0].url}
-                        src2={data.thumbnail[1] && data.thumbnail[1].url} />
+                        bg={data.thumbnail[0] && data.thumbnail[0].bg} />
                 </>
             );
-            case "eye": case "mouth": case "hair": case "cheek": return (
-                <>
-                    <Box id="LOGO" className="flex-row" sx={{ py: 2 }}>
-                        <ThumbnailContainer onUpdate={onUpdateLogo} onReset={onResetLogo}
-                            MAX_WIDTH={size.w} MAX_HEIGHT={size.h}
-                            VW={150} VH={150}
-                            src={data.icon} isCanRemove={logo !== null}
-                            ref={mergedCanvasRef}
-                        />
-                    </Box>
-                    <PartColor part={part} count={1}
-                        data={data.thumbnail}
-                        onReset={onResetThumb}
-                        onUpdate={onUpdateThumb}
-                        onUpdateColor={onUpdateColor}
-                        src={data.thumbnail[0] && data.thumbnail[0].url} />
-                </>
-            );
+            ////////////////////////////////////
+            case "eye": case "mouth": case "hair": case "cheek": {
+                return (
+                    <>{count === 1 &&
+                        <Box id="LOGO" className="flex-row" sx={{ py: 2 }}>
+                            <ThumbnailContainer onUpdate={onUpdateLogo} onReset={onResetLogo}
+                                MAX_WIDTH={size.w} MAX_HEIGHT={size.h}
+                                VW={150} VH={150}
+                                src={data.icon} isCanRemove={logo !== null}
+                                ref={mergedCanvasRef}
+                            />
+                        </Box>}
+                        <PartColor part={part} count={count}
+                            data={data.thumbnail}
+                            onReset={onResetThumb}
+                            //onResetBG={onResetThumbBG}
+                            onUpdateThumb={onUpdateThumb}
+                            onUpdateThumbBG={onUpdateThumbBG}
+                            onUpdateColor={onUpdateColor}
+                           /*  src={data.thumbnail[0] && data.thumbnail[0].url} */ />
+                    </>
+                );
+            }
+            ////////////////////////////////////
             default: return (
                 <>
                     <Box id="LOGO" className="flex-row" sx={{ py: 2 }}>
@@ -277,6 +342,7 @@ export function AvatarDetail() {
                         src={data.thumbnail[0] && data.thumbnail[0].url} />
                 </>
             );
+            ////////////////////////////////////
         }
     }
     //--------------------------------------------------//
@@ -292,28 +358,9 @@ export function AvatarDetail() {
 
             <TypeEvent value={data.type} onChangeEventHandler={onChangeEventHandler} />
 
-            {GraphicsView(String(body))}
             {/* GRAPHIC */}
-            {/*{colorList && data && (
-                <Box sx={{ py: 2 }}>
-                    <div className='flex-g'>
-                        <Typography variant="h6">GRAPHIC</Typography>
-                         {data.thumbnail.map((row: IThumbnail, index: number) => (
-                                <><ColorAvatar index={index} options={colorList} count={1}
-                                    onChangeColorHandler={onChangeColor}
-                                    onChangeThumbHandler={onUpdateGraphic}
-                                    src={row.url} color={row.color}
-                                />{console.log(row)
-                                    }</>
-                            ))} 
-                        <ColorAvatar index={-1} options={colorList} count={1}
-                            onChangeColorHandler={onChangeColor}
-                            onChangeThumbHandler={onUpdateGraphic}
-                            color={newThumb.color}
-                        />
-                    </div>
-                </Box>
-            )}*/}
+            {GraphicsView(String(body))}
+
             <BUpdate disabled={!isUpdated}
                 onCancel={onCancel} onComfirm={onConfirm}
             />

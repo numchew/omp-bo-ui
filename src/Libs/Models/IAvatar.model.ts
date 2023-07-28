@@ -16,6 +16,7 @@ export interface IThumbnail {
     name: string;
     icon: string;
     url: string;
+    bg: string;
     color: string;
 }
 
@@ -41,6 +42,7 @@ export function DThumbnail(): IThumbnail {
         name: "",
         icon: "",
         url: "",
+        bg: "",
         color: ""
     }
 }

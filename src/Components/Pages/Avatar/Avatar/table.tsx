@@ -20,8 +20,8 @@ import env from '../../../../Libs/Services/env';
 
 const headerCells: IHeadTabel[] = [
   { id: null, label: "", align: "left", sort: true, width: 30 },
-  { id: null, label: "", align: "left", sort: false, width: 50 }, //thumbnail(image)
-  // { id: "name", label: "NAME", align: "left", sort: true, width: 150 },
+  { id: null, label: "", align: "left", sort: false, width: 50 },
+  { id: null, label: "GRAPHIC", align: "center", sort: false, width: 50 },
   { id: "type", label: "TYPE", align: "center", sort: true, width: 100 },
   { id: "activate", label: "ACTIVATE", align: "center", sort: false, width: 50 },
   { id: null, label: "", align: "center", sort: false }, //column --> end
@@ -77,6 +77,7 @@ export const TableList = (props: IProps) => {
                   <img src={`${env.APP_API_HOST}/${row.icon}`} alt="Avatar" width={40} height={40} />
                 </Paper>
               </TableCell>
+              <TableCell align="center">{row.thumbnail.length}</TableCell>
               <TableCell align="left">{row.type.toUpperCase()}</TableCell>
               <TableCell align="center">
                 <Checkbox checked={row.activate} />

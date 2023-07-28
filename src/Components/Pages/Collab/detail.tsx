@@ -11,16 +11,10 @@ import { BUpdate, HName, Search, TStatus, TypeIC, ThumbnailContainer, TypeEvent 
 import { ThumbnailView, ThumbnailViewRef } from '../../Common/Thumbnail';
 import { IThumbnail, DThumbnail } from '../../../Libs/Models/IAvatar.model'
 
-/* import { useDrop } from 'react-dnd';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'; */
-
-
-
 export function CollabDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
     const size = getSize('thumb');
-    //const collab = useSelector((data: RootStore) => data.collab);
 
     const [data, setData] = useState<ICollab>(DCollab());
     const [contentD, setContentD] = useState<ICollab>(DCollab());
@@ -40,12 +34,6 @@ export function CollabDetail() {
             }).catch((e) => { });
         }
     }, [id]);
-
-    /* useEffect(() => {
-        const keys1 = Object.keys(data) as (keyof ICollab)[];
-        const keys2 = Object.keys(contentD) as (keyof ICollab)[];
-        //setUpdated(!(keys1.every((key) => data[key] === contentD[key])));
-    }, [data]); */
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeNameHandler = (value: string) => {

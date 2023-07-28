@@ -5,12 +5,12 @@ import { PartDefault } from './partDefault';
 
 interface IDefault {
     onReset?: (index: number) => void;
+    onResetBG?: (index: number) => void;
     onUpdate?: (value: File | null, index: number) => void;
+    onUpdateBG?: (value: File | null, index: number) => void;
 
-    /* onReset2?: (index: number) => void;
-    onUpdate2?: (value: File | null, index: number) => void; */
     src: string;
-    src2: string;
+    bg: string;
     part: string;
 
     id?: number;
@@ -32,7 +32,6 @@ export const Part2Item = (props: IDefault) => {
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onUpdate1 = (value: File | null) => {
-        //setIsUpdate(true);
         props.onUpdate && props.onUpdate(value, 0)
     }
     const onReset1 = (index: number = 0) => {
@@ -40,11 +39,10 @@ export const Part2Item = (props: IDefault) => {
     }
 
     const onUpdate2 = (value: File | null) => {
-        //setIsUpdate(true);
-        props.onUpdate && props.onUpdate(value, 1)
+        props.onUpdateBG && props.onUpdateBG(value, 0)
     }
     const onReset2 = (index: number = 1) => {
-        props.onReset && props.onReset(1);
+        props.onResetBG && props.onResetBG(0);
     }
     //--------------------------------------------------//
     //--------------------------------------------------//
@@ -64,7 +62,7 @@ export const Part2Item = (props: IDefault) => {
                 </Box>
                 <Box id="BACK" sx={{ px: 2 }}>
                     <PartDefault
-                        src={props.src2}
+                        src={props.bg}
                         part={props.part}
                         onReset={onReset2}
                         onUpdate={onUpdate2}
