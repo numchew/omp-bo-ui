@@ -12,11 +12,15 @@ export interface IProfile {
 }
 
 export enum UserRole {
-    OWNER = 'owner',
-    MANAGER = 'manager',
-    DEVELOPER = 'developer',
-    SALES = 'sales',
-    ADMIN = 'admin',
-    ACCOUNTANT = 'accountant',
-    USER = 'user'
+    /*  OWNER = 'owner',
+     MANAGER = 'manager',
+     DEVELOPER = 'developer',
+     SALES = 'sales',
+     ADMIN = 'admin',
+     ACCOUNTANT = 'accountant',
+     USER = 'user', */
+    S = 'developer',  //Developer
+    A = 'allaccess',  //All access
+    B = 'asset',      //Asset
+    C = 'cashier',    //Cashier
 }

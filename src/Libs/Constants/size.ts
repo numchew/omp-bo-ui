@@ -8,7 +8,7 @@ export function getSize(part: string) {
     switch (part) {
         case "color": return { w: 400, h: 400 };
 
-        case "skin": return { w: 650, h: 650 };
+        case "skin": return { w: 2000, h: 3000 };
         case "eye": return { w: 360, h: 360 };
         case "nose": return { w: 234, h: 234 };
         case "mouth": return { w: 234, h: 234 };
@@ -17,7 +17,7 @@ export function getSize(part: string) {
 
         case "shirt": return { w: 1450, h: 1450 };
         case "overcoat": return { w: 1450, h: 1450 };
-        case "trousers": return { w: 1450, h: 1450 };
+        case "pants": return { w: 1450, h: 1450 };
         case "dress": return { w: 1946, h: 1946 };
         case "sock": return { w: 1000, h: 1000 };
         case "shoe": return { w: 1000, h: 1000 };
@@ -28,8 +28,15 @@ export function getSize(part: string) {
         case "bracelet": return { w: 896, h: 410 };
         case "prop": return { w: 820, h: 820 };
 
-        case "background": return { w: 1450, h: 1450 };
+        case "background": return { w: 2000, h: 3000 };
 
         case "thumb": default: return { w: 400, h: 400 };
+    }
+}
+
+export function getIcon(part: string) {
+    switch (part) {
+        case "background": return { w: 267, h: 400 };
+        default: return { w: 400, h: 400 };
     }
 }

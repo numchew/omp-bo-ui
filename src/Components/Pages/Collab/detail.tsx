@@ -70,11 +70,17 @@ export function CollabDetail() {
                     }
                 }
 
-                CollabService.create(_d_).then(res => {
-                    setData(JSON.parse(JSON.stringify(res)));
-                    navigate(-1);
-                }).catch((e) => { return e });
-
+                if (_d_.id && _d_.id > 0) {
+                    CollabService.updateContent(_d_._id, _d_).then(res => {
+                        setData(JSON.parse(JSON.stringify(res)));
+                        navigate(-1);
+                    }).catch((e) => { return e });
+                } else {
+                    CollabService.create(_d_).then(res => {
+                        setData(JSON.parse(JSON.stringify(res)));
+                        navigate(-1);
+                    }).catch((e) => { return e });
+                }
             }).catch((e) => { return []; });
     };
 
@@ -172,8 +178,6 @@ export function CollabDetail() {
             <Box id="THUMBNAIL" sx={{ py: 2 }}>
                 <Typography variant='h6' sx={{ pr: 4, mt: -1 }}>THUMBNAIL</Typography>
                 <ThumbAdd data={data.thumbnail} onUpdate={onUpdateThumb} />
-
-
             </Box>
             {newThumb.length > 0 || data.thumbnail.length > 0 ? (
                 <Button variant="contained" color="error" onClick={onClear}
@@ -218,6 +222,7 @@ const ThumbAdd = React.forwardRef((props: IThumbAdd, ref) => {
         <Grid container spacing={1}>
             {props.data && props.data.map((item, index) => (
                 <ThumbnailView
+                    key={index}
                     ref={el => refs.current[index] = el}
                     id={index}
                     src={item?.url}

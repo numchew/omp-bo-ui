@@ -29,6 +29,7 @@ interface IDefault {
 export const Part2Item = (props: IDefault) => {
     //const size = getSize(props.part);
     //const [isUpdated, setIsUpdate] = useState(false);
+
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onUpdate1 = (value: File | null) => {
@@ -43,6 +44,7 @@ export const Part2Item = (props: IDefault) => {
     }
     const onReset2 = (index: number = 1) => {
         props.onResetBG && props.onResetBG(0);
+
     }
     //--------------------------------------------------//
     //--------------------------------------------------//

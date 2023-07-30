@@ -4,12 +4,12 @@ import env from "./env";
 import { AxiosRequestConfig } from "axios";
 
 export interface IAvatarService {
-    create: (avatar: Partial<IAvatar>, thumb: (File | null)[], icon: (File | null)[], logo: File | null) => Promise<IAvatar>;
+    create: (avatar: Partial<IAvatar>) => Promise<IAvatar>;
     updateContent: (id: string, avatar: Partial<IAvatar>) => Promise<IAvatar>;
     getContentAllPart: (part: string) => Promise<IAvatar[]>;
     getContent: (id: string) => Promise<IAvatar>;
     deleteContent: (id: string) => Promise<Boolean>;
-    uploads: (logo: File | null, thumb: (File | null)[], icon: (File | null)[]) => Promise<any>;
+    uploads: (part: string, logo: File | null, thumb: (File | null)[], bg: (File | null)[], icon: (File | null)[]) => Promise<any>;
 }
 
 class AvatarService extends HttpClient implements IAvatarService {
@@ -106,7 +106,7 @@ class AvatarService extends HttpClient implements IAvatarService {
 
     //--------------------------------------------------//
     //--------------------------------------------------//
-    public async uploads(logo: File | null, thumb: (File | null)[], icon: (File | null)[]): Promise<any> {
+    public async uploads(part: string, logo: File | null, thumb: (File | null)[], bg: (File | null)[], icon: (File | null)[]): Promise<any> {
         try {
             var formData = new FormData();
             if (logo !== null) {
@@ -117,6 +117,11 @@ class AvatarService extends HttpClient implements IAvatarService {
                     formData.append(`files`, file);
                 }
             });
+            bg.forEach((file, index) => {
+                if (file !== null) {
+                    formData.append(`bgs`, file);
+                }
+            });
             icon.forEach((file, index) => {
                 if (file !== null) {
                     formData.append(`icons`, file);
@@ -124,8 +129,8 @@ class AvatarService extends HttpClient implements IAvatarService {
             });
 
             const options: AxiosRequestConfig = {}
-            options.headers = { 'Content-Type': 'multipart/form-data' }
-            const response = await this.post(`${env.APP_API_HOST}/avatars/uploads`, formData, options);
+            options.headers = { 'Content-Type': 'multipart/form-data' };
+            const response = await this.post(`${env.APP_API_HOST}/avatars/uploads/${part}`, formData, options);
             if (!response.data) {
                 throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }

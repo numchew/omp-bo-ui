@@ -1,6 +1,6 @@
-import html2canvas from 'html2canvas';
+//import html2canvas from 'html2canvas';
 
-export const resizeImage = (imageFile: File, w: number | undefined, h: number | undefined, callback: (resizedImage: File | null) => void) => {
+export const ResizeImage = (imageFile: File, w: number | undefined, h: number | undefined, callback: (resizedImage: File) => void) => {
     const reader = new FileReader();
     reader.onload = (event: any) => {
         const img = new Image();
@@ -39,7 +39,7 @@ export const resizeImage = (imageFile: File, w: number | undefined, h: number | 
     reader.readAsDataURL(imageFile);
 };
 
-export const MergeImages = async (image1: string, image2: string,
+/* export const MergeImages = async (image1: string, image2: string,
     ref: any, callback: (url: string) => void) => {
     try {
         if (image1 && image2) {
@@ -50,13 +50,15 @@ export const MergeImages = async (image1: string, image2: string,
             img2.src = image2;
             await Promise.all([loadImage(img1), loadImage(img2)]);
 
-            console.log(image1, '...', image2, canvas);
+            console.log(canvas, '...', image1, '...', image2, canvas);
             if (canvas === null) {
                 canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx?.clearRect(0, 0, canvas.width, canvas.height);
-                ctx?.drawImage(img1, 0, 0, canvas.width, canvas.height);
                 ctx?.drawImage(img2, 0, 0, canvas.width, canvas.height);
+                ctx?.drawImage(img1, canvas.width, 0, canvas.width, canvas.height);
+
+                console.log(img2, '+++', img1);
                 canvas.toBlob((blob: any) => {
                     console.log(URL.createObjectURL(blob));
                     blob && callback(URL.createObjectURL(blob));
@@ -93,13 +95,13 @@ export const MergeImages = async (image1: string, image2: string,
                 });
             }
         }
-    } catch (e) {
-        /*  canvas = document.createElement('canvas');
-         const ctx = canvas.getContext('2d');
-         ctx?.clearRect(0, 0, canvas.width, canvas.height);
-         ctx?.drawImage(img1, 0, 0, canvas.width, canvas.height);
-         ctx?.drawImage(img2, 0, 0, canvas.width, canvas.height); */
-    }
+    } catch (e) { */
+/*  canvas = document.createElement('canvas');
+ const ctx = canvas.getContext('2d');
+ ctx?.clearRect(0, 0, canvas.width, canvas.height);
+ ctx?.drawImage(img1, 0, 0, canvas.width, canvas.height);
+ ctx?.drawImage(img2, 0, 0, canvas.width, canvas.height); */
+/*     }
 };
 
 const loadImage = (image: HTMLImageElement): Promise<void> => {
@@ -121,4 +123,40 @@ export const GetFileImages = (
             callback(file);
         });
     });
+}
+ */
+
+export async function MergeImages(imageUrls: string[],
+    w: number, h: number,
+    callback: (url: File) => void) {
+
+    const canvas = document.createElement('canvas');
+    var images = [];
+    for (var i = 0; i < imageUrls.length; i++) {
+        const img = new Image();
+        // eslint-disable-next-line
+        await new Promise((resolve) => {
+            //img.onerror = () => reject(new Error('Couldn\'t load image'));
+            img.onload = resolve;
+            img.src = imageUrls[i];
+        });
+        images.push(img);
+    }
+
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    images.forEach((image) => {
+        image && ctx?.drawImage(image, 0, 0, canvas.width, canvas.height);
+    });
+
+    canvas.toBlob(async (blob: any) => {
+        if (blob) {
+            var fileBlob: File = await new File([blob as Blob], 'icon.png', { type: 'image/png' })
+            callback(fileBlob);
+        }
+    });
+    // Export the merged image as a Data URL
+    const mergedImageURL = canvas.toDataURL('image/png');
+    return mergedImageURL;
 }

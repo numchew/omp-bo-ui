@@ -67,6 +67,8 @@ export const ColorAvatar = (props: ColorAvatarProps) => {
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeHandler = (value: IColor | null) => {
+        console.log(value);
+
         if (value) {
             props.onChangeColorHandler && props.onChangeColorHandler(value, props.index);
         } else {
@@ -166,10 +168,11 @@ const OnPreview = (props: IView) => {
                 borderColor="#000"
             >
                 <Paper className='flex-c-m' elevation={0}>
-                    {props.src !== undefined ?
+                    {props.src !== undefined && props.src !== "" ?
                         <img alt="Thumbnail"
                             style={{ maxWidth: 80, height: 'auto' }}
-                            src={props.src}
+                            src={props.src.indexOf('blob') > -1 ?
+                                props.src : `${env.APP_API_HOST}/${props.src}`}
                         /> : <div style={{ width: 80, height: 80 }}></div>}
                 </Paper>
             </Box>

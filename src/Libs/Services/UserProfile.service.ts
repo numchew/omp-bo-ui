@@ -64,7 +64,10 @@ class UserProfile extends HttpClient implements IUserProfileService {
       localStorage.setItem("phonenumber", data.phonenumber);
       localStorage.setItem("fname", data.fname);
       localStorage.setItem("lname", data.lname);
-      localStorage.setItem("role", data.role);
+      localStorage.setItem("roles", data.roles);
+
+      console.log(data);
+
 
       return data;
     } catch (e) {

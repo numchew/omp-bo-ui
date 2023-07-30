@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from "axios";
 
 export interface ICollabService {
     create: (collab: Partial<ICollab>, thumb: File | null) => Promise<ICollab>;
-    updateContent: (id: string, collab: Partial<ICollab>, thumb: File | null) => Promise<Boolean>;
+    updateContent: (id: string, collab: Partial<ICollab>) => Promise<ICollab>;
     getContentAll: () => Promise<ICollab[]>;
     getContent: (id: string) => Promise<ICollab>;
     deleteContent: (id: string) => Promise<Boolean>;
@@ -88,10 +88,10 @@ class CollabService extends HttpClient implements ICollabService {
 
     //--------------------------------------------------//
     //--------------------------------------------------//
-    public async updateContent(id: string, collab: Partial<ICollab>, thumb: File | null) {
+    public async updateContent(id: string, collab: Partial<ICollab>): Promise<ICollab> {
         try {
-            const url = `${env.APP_API_HOST}/collabs/id`;
-            const response = await this.patch(url, { ...collab, file: thumb });
+            const url = `${env.APP_API_HOST}/collabs/${id}`;
+            const response = await this.patch(url, collab);
             if (response.status === undefined) {  //server failure
                 throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
             }
@@ -99,7 +99,7 @@ class CollabService extends HttpClient implements ICollabService {
             if (!response.data) {
                 throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
             }
-            const data: any = response.data;
+            const data: ICollab = response.data as ICollab;
             return data;
         } catch (e) {
             throw e;
@@ -149,7 +149,7 @@ class CollabService extends HttpClient implements ICollabService {
             }
             const data: any = response.data;
             if (data.status === "error") {
-                throw new Error("ไม่พบข้อมูล");
+                throw new Error("ล้มเหลว ลองใหม่อีกครั้ง");
             }
             return Boolean(response.data);
         } catch (e) {

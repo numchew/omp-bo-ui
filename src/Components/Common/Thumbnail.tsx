@@ -3,7 +3,7 @@ import { Button, Box, Paper, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 import env from '../../Libs/Services/env';
-import { resizeImage } from '../../Libs/Extensions/Image.extension';
+import { ResizeImage } from '../../Libs/Extensions/Image.extension';
 
 interface IProps {
     id?: number;
@@ -95,7 +95,7 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
     /* const handleThumbnailChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            resizeImage(file, props.MAX_WIDTH, props.MAX_HEIGHT, (resizedImage) => {
+            ResizeImage(file, props.MAX_WIDTH, props.MAX_HEIGHT, (resizedImage) => {
                 console.log('Resized Image:', resizedImage);
                 //setThumbnail(resizedImage);
                 props.onUpdate?.(resizedImage);
@@ -112,11 +112,11 @@ export const ThumbnailView = forwardRef<ThumbnailViewRef, IProps>((props, ref) =
         if (file) {
             //setIsUpdated(true);
             ////// resize to icon //////
-            /* resizeImage(file, thumbWidth, thumbHeight, (resizedImage) => {
+            /* ResizeImage(file, thumbWidth, thumbHeight, (resizedImage) => {
                 setIcon(resizedImage);
             }); */
             ////// resize to thumbnail //////
-            resizeImage(file, props.MAX_WIDTH, props.MAX_HEIGHT, (resizedImage) => {
+            ResizeImage(file, props.MAX_WIDTH, props.MAX_HEIGHT, (resizedImage) => {
                 //setThumbnail(resizedImage);
                 props.onUpdate?.(resizedImage);
             });

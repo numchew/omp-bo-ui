@@ -47,7 +47,7 @@ export interface IFace {
 export interface IClothing {
     id: number;
     shirt: string;
-    trousers: string;
+    pants: string;
     dress: string;
     sock: string;
     shoe: string;

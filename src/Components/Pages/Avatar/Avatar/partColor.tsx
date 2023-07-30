@@ -7,6 +7,7 @@ import { IThumbnail, DThumbnail } from '../../../../Libs/Models/IAvatar.model';
 
 interface IDefault {
     onReset?: (index: number) => void;
+    onClear?: (index: number) => void;
     onUpdateThumb?: (value: File | null, index: number, color: string) => void;
     onUpdateThumbBG?: (value: File | null, index: number, color: string) => void;
     onUpdateColor?: (thumb: IThumbnail, index: number) => void;
@@ -31,7 +32,7 @@ export const PartColor = (props: IDefault) => {
     useEffect(() => {
         if (props.count > 1) {
             if (newThumb.url !== "" && newThumb.bg !== "") {
-                setNewThumb(DThumbnail());
+                newItem(newThumb.id + 1);
                 setIsShow(true);
             } else {
                 if (newThumb.url === "" && newThumb.bg === "") {
@@ -49,6 +50,12 @@ export const PartColor = (props: IDefault) => {
             }
         }
     }, [props.data, props.count, newThumb]);
+
+    const newItem = (index: number) => {
+        var th = DThumbnail();
+        th.id = index;
+        setNewThumb(th);
+    }
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeColor = (color: IColor | null, index: number) => {
@@ -66,7 +73,9 @@ export const PartColor = (props: IDefault) => {
     }
 
     const onUpdateGraphic = (value: File | null, index: number) => {
-        setNewThumb(pre => ({ ...pre, url: "new" }));
+        if (index === newThumb.id) {
+            setNewThumb(pre => ({ ...pre, url: "new" }));
+        }
         if (props.data.length > index) {
             props.onUpdateThumb?.(value, index, props.data[index].color);
         } else {
@@ -75,7 +84,9 @@ export const PartColor = (props: IDefault) => {
     }
 
     const onUpdateBG = (value: File | null, index: number) => {
-        setNewThumb(pre => ({ ...pre, bg: "new" }));
+        if (index === newThumb.id) {
+            setNewThumb(pre => ({ ...pre, bg: "new" }));
+        }
         if (props.data.length > index) {
             props.onUpdateThumbBG?.(value, index, props.data[index].color);
         } else {
@@ -85,8 +96,13 @@ export const PartColor = (props: IDefault) => {
 
     const onDeleteHandler = (index: number) => {
         props.onUpdateThumb?.(null, index, "");
+        if (props.count > 1) {
+            props.onUpdateThumbBG?.(null, index, "");
+        }
+        props.onReset?.(index);
         if (newThumb.id === index) {
-            setNewThumb(pre => ({ ...pre, url: "", bg: "" }));
+            //setNewThumb(pre => ({ ...pre, url: "", bg: "", icon: "" }));
+            newItem(newThumb.id - 1);
         }
     }
     //--------------------------------------------------//
@@ -98,14 +114,17 @@ export const PartColor = (props: IDefault) => {
                     <Typography variant="h6">GRAPHIC</Typography>
                     <Box className="flex-w flex-row-l">
                         {props.data.map((row: IThumbnail, index: number) => (
-                            <><ColorAvatar index={index} options={colorList} count={props.count}
-                                onChangeColorHandler={onChangeColor}
-                                onChangeThumbHandler={onUpdateGraphic}
-                                onChangeThumbBGHandler={onUpdateBG}
-                                onDeleteHandler={onDeleteHandler}
-                                src={row.url} bg={row.bg} icon={row.icon}
-                                color={row.color ? row.color : ""}
-                            /></>
+                            <>
+                                <ColorAvatar index={index} options={colorList} count={props.count}
+                                    onChangeColorHandler={onChangeColor}
+                                    onChangeThumbHandler={onUpdateGraphic}
+                                    onChangeThumbBGHandler={onUpdateBG}
+                                    onDeleteHandler={onDeleteHandler}
+                                    src={row.url} bg={row.bg} icon={row.icon}
+                                    color={row.color ? row.color : ""}
+                                    key={index}
+                                />
+                            </>
                         ))}
                         {isShow ?
                             <ColorAvatar index={props.data.length} options={colorList} count={props.count}
@@ -113,6 +132,7 @@ export const PartColor = (props: IDefault) => {
                                 onChangeThumbHandler={onUpdateGraphic}
                                 onChangeThumbBGHandler={onUpdateBG}
                                 color={newThumb ? newThumb.color : ""}
+                                key={props.data.length}
                             /> : <></>}
                     </Box>
                 </Box>

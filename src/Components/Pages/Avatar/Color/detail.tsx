@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import { primary } from '../../../../Styles/Theme';
-import { IColor, DColor } from '../../../../Libs/Models/IColor.model';
+import { IColor, DColor, CompareColors } from '../../../../Libs/Models/IColor.model';
 import ColorService from '../../../../Libs/Services/Color.service';
 import { getSize } from '../../../../Libs/Constants/size';
 
@@ -17,6 +17,8 @@ export function ColorDetail() {
     const [thumbnail, setThumbnail] = useState<File | null>(null);
     const size = getSize('color');
 
+    const [isUpdated, setUpdated] = useState(false);
+
     useEffect(() => {
         if (id) {
             ColorService.getContent(id).then(res => {
@@ -25,6 +27,9 @@ export function ColorDetail() {
             }).catch((e) => { });
         }
     }, [id])
+    useEffect(() => {
+        setUpdated(!CompareColors(data, contentD));
+    }, [data, contentD]);
 
     //--------------------------------------------------//
     //--------------------------------------------------//
@@ -86,7 +91,8 @@ export function ColorDetail() {
                     src={data.url}
                 />
             </Box>
-            <BUpdate disabled={(thumbnail === null && data.url.length < 1) || data.name.trim().length < 1}
+            <BUpdate disabled={!isUpdated || data.name.trim().length < 1
+                || (thumbnail === null && data.url.length < 1)}
                 onCancel={onCancel} onComfirm={onConfirm}
             />
             <Divider color={primary} />

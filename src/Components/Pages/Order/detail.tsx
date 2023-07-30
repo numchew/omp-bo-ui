@@ -43,10 +43,6 @@ export function OrderDetail() {
         }
     }, [id])
 
-    React.useEffect(() => {
-        console.log(data);
-    }, [data])
-
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onClickViewImg = (r: IOrderProduct) => {
@@ -97,7 +93,6 @@ export function OrderDetail() {
     //--------------------------------------------------//
     //--------------------------------------------------//
     const BStatus = ({ status }: any) => {
-        console.log(data.status);
         var label = "";
         var cancel = "";
         switch (status) {
@@ -106,17 +101,7 @@ export function OrderDetail() {
 
             case "delivery waiting": label = "delivery"; cancel = "delivery failed"; break;
             case "delivery": label = "successful"; cancel = "cancel"; break;
-
-            //case "playment failed": label = "playment success"; break;
-            //case "delivery failed": label = "playment success"; break;
-            //case "successful": label = "playment success"; break;
-            //case "cancel": label = "playment success"; break;
-            //case "failed": label = "playment success"; break;
-
         }
-
-
-
         return (
             <div className='dis-flex flex-row' style={{ paddingLeft: 500 }}>
                 <Button variant="contained" sx={{ width: 110 }} color='error'
@@ -155,8 +140,8 @@ export function OrderDetail() {
                 </div>
                 <div className="dis-flex flex-row flex-m">
                     <TStatus title={'Ship'} msg={data.shipping}></TStatus>
-                    {/* <TStatus title={'Tracking No.'} msg={data.tracking}></TStatus> */}
-                    <TStatus title={'Tracking No.'} msg={""} msg_disabled={true}></TStatus>
+                    { }
+                    <TStatus title={'Tracking No.'} msg={data.tracking} msg_disabled={true}></TStatus>
                     <Search type="fill" lable="" value={data.tracking} onChangeHandler={onChangeTackingHandler} />
                 </div>
                 <div className="dis-flex flex-row">

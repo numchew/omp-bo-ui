@@ -34,7 +34,7 @@ export function ProductDetail() {
 
     function findColor(_id: string) {
         var c = colors?.find(e => e._id === _id);
-        return c ? c.name : '';
+        return c ? c._id : '';
     }
     //--------------------------------------------------//
     //--------------------------------------------------//

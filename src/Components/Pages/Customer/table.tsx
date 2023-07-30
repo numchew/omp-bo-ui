@@ -68,8 +68,8 @@ export const TableList = (props: IProps) => {
               <TableCell align="left">{row._id}</TableCell>
               <TableCell align="left">{row.username}</TableCell>
               <TableCell align="center">{row.phonenumber}</TableCell>
-              <TableCell align="left">{row.orders && row.orders[row.orders.length - 1].shipping}</TableCell>
-              <TableCell align="center">{row.orders && row.orders[row.orders.length - 1].status}</TableCell>
+              <TableCell align="left">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].shipping}</TableCell>
+              <TableCell align="center">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].status}</TableCell>
               {/*<TableCell align="center">{row.status}</TableCell>
               <TableCell align="center">{row.tracking}</TableCell> */}
 

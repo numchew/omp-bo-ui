@@ -19,7 +19,8 @@ export function AvatarList() {
 
     useEffect(() => {
         if (body) {
-            AvatarService.getContentAllPart(body).then(res => {
+            var part = body;
+            AvatarService.getContentAllPart(part).then(res => {
                 setData(res);
             }).catch((e) => { });
         }
