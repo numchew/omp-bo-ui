@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Autocomplete, Pagination, TextField, Typography } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
@@ -11,11 +11,13 @@ interface IProps {
 }
 
 export function PPagination(props: IProps) {
-  const [rowsPerPage, setRowsPerPage] = useState(25)
+  const [rowsPerPage, setRowsPerPage] = useState(100)
   const [curPage, setCurPage] = useState(1)
-  const [numPage, setNumPage] = useState(
-    Math.ceil(props.quantity / rowsPerPage),
-  )
+  const [numPage, setNumPage] = useState(1)
+
+  useEffect(() => {
+    setNumPage(Math.ceil(props.quantity / rowsPerPage));
+  }, [])
 
   //--------------------------------------------------//
   //--------------------------------------------------//
