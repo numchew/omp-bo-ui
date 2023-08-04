@@ -47,11 +47,11 @@ export const ThumbnailContainer = forwardRef((props: IProps, ref) => {
         props.onReset?.();
     }
 
-    const onClear = () => {
+    /* const onClear = () => {
         thumbRef.current?.remove();
         setIsUpdate(false);
         props.onClear?.();
-    }
+    } */
     //--------------------------------------------------//
     //--------------------------------------------------//
     return (
