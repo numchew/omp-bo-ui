@@ -9,7 +9,7 @@ import { TableList } from '.';
 
 export function ProductList() {
     const navigate = useNavigate();
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IProduct[]>([]);
 

@@ -6,7 +6,7 @@ import { ICustomer } from '../../../Libs/Models/ICustomer.model';
 import { TableList } from '.';
 
 export function CustomerList() {
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [curPage, setCurPage] = useState(1);
     const [dataServ, setDataServ] = useState<ICustomer[]>([]);
     const [data, setData] = useState<ICustomer[]>([]);

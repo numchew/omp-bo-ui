@@ -13,7 +13,7 @@ export function AvatarList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { body } = useParams();
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IAvatar[]>([]);
 

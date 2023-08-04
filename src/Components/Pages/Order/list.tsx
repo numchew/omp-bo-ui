@@ -6,7 +6,7 @@ import { IOrder } from '../../../Libs/Models/IOrder.model';
 import { TableList } from '.';
 
 export function OrderList() {
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [curPage, setCurPage] = useState(1);
     const [dataServ, setDataServ] = useState<IOrder[]>([]);
     const [data, setData] = useState<IOrder[]>([]);
