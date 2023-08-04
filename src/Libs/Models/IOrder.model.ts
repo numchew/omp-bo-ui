@@ -26,6 +26,7 @@ export interface IOrderProduct {
     color: string;
     imgchar: string;
     imgbg: string;
+    icon: string;
     quantity: number;
     price: number;
 }

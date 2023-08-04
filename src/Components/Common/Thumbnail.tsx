@@ -17,6 +17,7 @@ interface IProps {
     disabled?: boolean;
     isCanRemove?: boolean;
     onReset?: () => void;
+    onClear?: () => void;
     onUpdate?: (value: File | null) => void;
     onChange?: (value: File | null, icon: File | null, id: number) => void;
 }
@@ -45,6 +46,12 @@ export const ThumbnailContainer = forwardRef((props: IProps, ref) => {
         setIsUpdate(false);
         props.onReset?.();
     }
+
+    const onClear = () => {
+        thumbRef.current?.remove();
+        setIsUpdate(false);
+        props.onClear?.();
+    }
     //--------------------------------------------------//
     //--------------------------------------------------//
     return (
@@ -65,7 +72,11 @@ export const ThumbnailContainer = forwardRef((props: IProps, ref) => {
                     <Button variant="contained" color="error" onClick={onRemove}>
                         REMOVE
                     </Button>
-                </Box> : <></>
+                </Box> : <Box sx={{ py: 2 }}>
+                    {/*   <Button variant="contained" color="error" onClick={onClear}>
+                        REMOVE
+                    </Button> */}
+                </Box>
             }
         </div>
     );

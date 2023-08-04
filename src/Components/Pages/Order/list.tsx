@@ -13,8 +13,9 @@ export function OrderList() {
 
     useEffect(() => {
         OrderService.getContentAll().then(res => {
-            setDataServ(res.reverse());
-            setData(res.reverse());
+
+            setDataServ(JSON.parse(JSON.stringify(res)));
+            setData(JSON.parse(JSON.stringify(res.reverse())));
         }).catch((e) => { });
     }, [])
 

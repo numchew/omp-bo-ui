@@ -67,7 +67,7 @@ export const TableList = (props: IProps) => {
             <TableRow key={row._id}>
               <TableCell align="left">{row._id}</TableCell>
               <TableCell align="left">{day(row.date_ordered)}</TableCell>
-              <TableCell align="center">{row.customer.username}</TableCell>
+              <TableCell align="center">{row.customer && row.customer.email && row.customer.email}</TableCell>
               <TableCell align="left">{row.shipping}</TableCell>
               <TableCell align="center">{row.total}</TableCell>
               <TableCell align="center">{row.status}</TableCell>

@@ -74,13 +74,13 @@ export const TableList = (props: IProps) => {
               <TableCell align="left">{index + 1}</TableCell>
               <TableCell align="left">
                 <Paper className='flex-c-m' elevation={1} >
-                  {/* {row.icon ?
+                  {row.icon && row.part !== "background" ?
                     <img src={`${env.APP_API_HOST}/${row.icon}`} alt="Avatar" width={'auto'} height={40} />
-                    : <img src={`${env.APP_API_HOST}/${row.thumbnail[0].icon}`} alt="Avatar" width={'auto'} height={40} />
-                  } */}
-                  {row.thumbnail[0] &&
+                    : row.thumbnail[0] && <img src={`${env.APP_API_HOST}/${row.thumbnail[0].icon}`} alt="Avatar" width={'auto'} height={40} />
+                  }
+                  {/*{row.thumbnail[0] &&
                     <img src={`${env.APP_API_HOST}/${row.thumbnail[0].icon}`} alt="Avatar" width={'auto'} height={40} />}
-                </Paper>
+                */}</Paper>
               </TableCell>
               <TableCell align="center">{row.thumbnail.length}</TableCell>
               <TableCell align="left">{row.type.toUpperCase()}</TableCell>

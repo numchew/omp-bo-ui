@@ -6,6 +6,8 @@ export interface ICollab {
     name: string;
     type: string;
     icon: string;
+    /* date_start: string;
+    date_expire: string; */
     sticker: boolean;
     mug: boolean;
     shirt: boolean;

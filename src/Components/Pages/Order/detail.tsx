@@ -11,6 +11,8 @@ import { OrderStatus } from '../../../Libs/Constants/enum'
 import { TStatus, TypeIC, Search } from '../../Common';
 import { ProductView } from './';
 import env from '../../../Libs/Services/env';
+import ColorService from '../../../Libs/Services/Color.service';
+import { IColor } from '../../../Libs/Models/IColor.model';
 
 const headerCells: IHeadTabel[] = [
     { id: "id", label: "", align: "left", sort: false, width: 10 },
@@ -34,15 +36,26 @@ export function OrderDetail() {
     const [data, setData] = useState<IOrder>(DOrder());
     const [isOpenView, setIsOpenView] = useState(false);
     const [productView, setProductView] = useState<IOrderProduct>();
-
+    const [color, setColor] = useState<IColor[]>();
+    React.useEffect(() => {
+        ColorService.getContentAll().then(res => {
+            setColor(res);
+        })
+    }, [])
     React.useEffect(() => {
         if (id) {
             OrderService.getContent(id).then(res => {
                 setData(JSON.parse(JSON.stringify(res)));
+                console.log(res);
+
             }).catch((e) => { });
         }
     }, [id])
 
+    const getColor = (c: String): string => {
+        var res = color?.find(e => e._id === c);
+        return res ? res.url : "";
+    }
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onClickViewImg = (r: IOrderProduct) => {
@@ -131,7 +144,7 @@ export function OrderDetail() {
             </Modal>
             <Box id="DETAIL" sx={{ px: 2, py: 2 }} >
                 <div className="dis-flex flex-row flex-m" >
-                    <TStatus title={'ชื่อ-นามสกุล'} msg={data.customer.username}></TStatus>
+                    <TStatus title={'ชื่อ-นามสกุล'} msg={data.customer.email}></TStatus>
                     <TStatus title={'STATUS'} msg={data.status.toString().toUpperCase()}></TStatus>
                 </div>
                 <div className="dis-flex flex-row flex-m">
@@ -158,8 +171,8 @@ export function OrderDetail() {
                                 <TableRow key={row._id}>
                                     <TableCell align="left">{index + 1}</TableCell>
                                     <TableCell align="left">
-                                        <Paper className='flex-c-m' elevation={0}>
-                                            <img src={`${env.APP_API_HOST}/${row.imgchar}`} alt="" width={27} height={40} />
+                                        <Paper className='flex-c-m' elevation={1} sx={{ backgroundColor: 'gray', p: 0.5 }}>
+                                            <img src={`${env.APP_API_HOST}/${row.icon}`} alt="" width={'auto'} height={40} />
                                         </Paper>
                                     </TableCell>
                                     <TableCell align="left">{row.name.toUpperCase()}</TableCell>
@@ -167,7 +180,12 @@ export function OrderDetail() {
                                         <TypeIC value={row.type} disabled={true} selected={true} size={40} />
                                     </TableCell>
                                     <TableCell align="center">{row.size}</TableCell>
-                                    <TableCell align="center">{row.color}</TableCell>
+                                    {/* <TableCell align="center">{row.color}</TableCell> */}
+                                    <TableCell align="center"><Paper className='flex-c-m' elevation={1} sx={{ width: 40 }} >
+                                        <img src={`${env.APP_API_HOST}/${getColor(row.color)}`} alt="Color"
+                                            style={{ width: 40, height: 'auto' }}
+                                        />
+                                    </Paper></TableCell>
                                     <TableCell align="center">{row.quantity}</TableCell>
                                     <TableCell align="right">{row.price}</TableCell>
                                     <TableCell align="right">{row.price * row.quantity}</TableCell>

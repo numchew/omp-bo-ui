@@ -5,7 +5,7 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 import env from "./env";
 
 export interface IUserProfileService {
-  create: (profile: IProfile) => Promise<IProfile>;
+  create: (profile: IProfile, password: string) => Promise<IProfile>;
   login: (username: string, password: string) => Promise<IProfile>;
   logout: () => void;
   isUserLogin: () => boolean;
@@ -19,10 +19,15 @@ class UserProfile extends HttpClient implements IUserProfileService {
     super();
   } */
 
-  public async create(profile: IProfile): Promise<IProfile> {
+  public async create(profile: IProfile, password: string): Promise<IProfile> {
     try {
-      const url = `${env.APP_API_HOST}/auth/register`;
-      const response = await this.post(url, profile);
+      const url = `${env.APP_API_HOST}/auth/employee/register`;
+      const { date_created, date_updated, id, ...user } = { ...profile, password: password }
+
+      const response = await this.post(url, { ...user, password: password });
+
+      console.log({ ...profile, password: password });
+
       if (response.status === undefined) {  //server failure
         throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
       }
@@ -65,10 +70,6 @@ class UserProfile extends HttpClient implements IUserProfileService {
       localStorage.setItem("fname", data.fname);
       localStorage.setItem("lname", data.lname);
       localStorage.setItem("roles", data.roles);
-
-      console.log(data);
-
-
       return data;
     } catch (e) {
       throw e;

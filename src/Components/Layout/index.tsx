@@ -16,6 +16,8 @@ import { AuthContext } from "../../Libs/Contexts";
 import HAppBar from "./HAppBar";
 import { Slidebar } from "./Slidebar";
 import { NewPassword } from "./NewPassword";
+import { CreateNewUser } from '../Common/CreateUser';
+import { UserRole } from '../../Libs/Models/IProfile.model';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -34,6 +36,7 @@ export default function Layout(props: IProps) {
   const navigate = useNavigate();
   const loading = useSelector((state: RootStore) => state.loader.loading);
   const isLogin = useContext(AuthContext);
+  const [roles, setRoles] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLogin) {
@@ -41,7 +44,11 @@ export default function Layout(props: IProps) {
     }
   }, [isLogin, navigate]);
 
-  // const [openAdd, setOpenAdd] = useState(false);
+  useEffect(() => {
+    setRoles(localStorage.getItem("roles"))
+  }, [])
+
+  const [openNewUser, setNewUser] = useState(false);
   const [openNewPass, setOpenNewPass] = useState(false);
   //--------------------------------------------------//
   //--------------------------------------------------//
@@ -61,25 +68,27 @@ export default function Layout(props: IProps) {
       <Slidebar />
       <Outlet />
 
-      <IconButton
-        //onClick={() => setOpenAdd(true)}
-        sx={{
-          position: "fixed",
-          bottom: 16,
-          left: 40,
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
-        color="primary"
-        disableRipple={true}
-      >
-        <AddCircleRoundedIcon sx={{ fontSize: 50 }} />
-      </IconButton>
-      {/*        <Dialog fullScreen open={openAdd} TransitionComponent={Transition}>
-        <CreateStudent onCloseHandler={() => setOpenAdd(false)} />
-      </Dialog> */}
+      {(roles === UserRole.S || roles === UserRole.A) ?
+        <IconButton
+          onClick={() => setNewUser(true)}
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            left: 40,
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+          color="primary"
+          disableRipple={true}
+        >
+          <AddCircleRoundedIcon sx={{ fontSize: 50 }} />
+        </IconButton>
+        : <></>}
+      <Dialog fullScreen open={openNewUser} TransitionComponent={Transition}>
+        <CreateNewUser onCloseHandler={() => setNewUser(false)} />
+      </Dialog>
       <Dialog fullScreen open={openNewPass} TransitionComponent={Transition}>
         <NewPassword onCloseHandler={() => setOpenNewPass(false)} />
-      </Dialog> {/* */}
+      </Dialog>
     </div>
   );
 }

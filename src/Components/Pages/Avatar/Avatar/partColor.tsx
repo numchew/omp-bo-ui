@@ -59,8 +59,6 @@ export const PartColor = (props: IDefault) => {
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeColor = (color: IColor | null, index: number) => {
-        console.log(props.data.length, index);
-
         if (props.data.length > index && index > -1) {
             props.data[index].color = color?._id ? color._id : "";
             props.onUpdateColor?.(props.data[index], index);

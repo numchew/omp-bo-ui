@@ -17,7 +17,7 @@ export function getSize(part: string) {
 
         case "shirt": return { w: 1450, h: 1450 };
         case "overcoat": return { w: 1450, h: 1450 };
-        case "pants": return { w: 1450, h: 1450 };
+        case "pants": case "pant": return { w: 1450, h: 1450 };
         case "dress": return { w: 1946, h: 1946 };
         case "sock": return { w: 1000, h: 1000 };
         case "shoe": return { w: 1000, h: 1000 };

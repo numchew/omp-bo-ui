@@ -44,8 +44,9 @@ export function AvatarDetail() {
 
     useEffect(() => {
         setUpdated(!CompareAvatars(data, contentD));
-        /* console.log(data);
-        console.log("---------------");
+        /*console.log(contentD);
+        console.log(data);
+         console.log("---------------");
         console.log('logo', logo);
         console.log('newThumb', newThumb);
         console.log('newThumbBG', newThumbBG);
@@ -77,9 +78,24 @@ export function AvatarDetail() {
     const onResetLogo = (index: number = 0) => {
         onUpdateLogo(null);
     }
+    const onClearLogo = (index: number) => {
+        setContentD(pre => ({ ...pre, icon: "" }));
+        setTimeout(() => {
+            onResetLogo(index);
+        }, 1000);
+
+    }
 
     const onResetThumb = (index: number) => {
         onUpdateThumb(null, index);
+    }
+    const onClearThumb = (index: number) => {
+        const thumbs = [...contentD.thumbnail];
+        thumbs.splice(index, 1);
+        setContentD(pre => ({ ...pre, thumbnail: thumbs }));
+        setTimeout(() => {
+            onResetThumb(index);
+        }, 1000);
     }
 
     const onRemoveThumb = (index: number) => {
@@ -88,7 +104,6 @@ export function AvatarDetail() {
         thumbs.splice(index, 1);
         setData(pre => ({ ...pre, thumbnail: thumbs }));
     }
-
     const onResetThumbBG = (index: number) => {
         onUpdateThumbBG(null, index);
     }
@@ -182,8 +197,8 @@ export function AvatarDetail() {
     }
 
     const onUpdateThumbBG = (value: File | null, index: number, color: string = "") => {
-        const th = [...newThumb];
-        const thumbs = [...data.thumbnail];
+        var th = [...newThumbBG];
+        var thumbs = [...data.thumbnail];
         if (value) { //ADD
             ResizeImage(value, sizeS.w, sizeS.h, (resize: File) => {
                 th[index] = resize;
@@ -215,12 +230,15 @@ export function AvatarDetail() {
             const _d_ = { ...data };
             _d_.part = body ? body : "";
             _d_.icon = res.logo ? res.logo : _d_.icon;
-
             var u: number = 0, b: number = 0, c: number = 0;
             for (var i = 0; i < _d_.thumbnail.length; i++) {
                 if (_d_.thumbnail[i].url.indexOf('blob:') > -1) {
                     _d_.thumbnail[i].url = res.thumbs[u++];
+                }
+                if (_d_.thumbnail[i].bg.indexOf('blob:') > -1) {
                     _d_.thumbnail[i].bg = res.bgs[b++];
+                }
+                if (_d_.thumbnail[i].icon.indexOf('blob:') > -1) {
                     _d_.thumbnail[i].icon = res.icons[c++];
                 }
             }
@@ -310,7 +328,7 @@ export function AvatarDetail() {
             default: return (
                 <>
                     <Box id="LOGO" className="flex-row" sx={{ py: 2 }}>
-                        <ThumbnailContainer onUpdate={onUpdateLogo} onReset={onResetLogo}
+                        <ThumbnailContainer onUpdate={onUpdateLogo} onReset={onResetLogo} onClear={() => onClearLogo(0)}
                             MAX_WIDTH={iconS.w} MAX_HEIGHT={iconS.h}
                             VW={150} VH={150}
                             src={data && (
@@ -322,6 +340,7 @@ export function AvatarDetail() {
                     </Box>
                     <PartDefault part={part}
                         onReset={onResetThumb}
+                        onClear={onClearThumb}
                         onUpdate={onUpdateThumb}
                         src={data.thumbnail[0] && data.thumbnail[0].url} />
                 </>
@@ -343,7 +362,7 @@ export function AvatarDetail() {
 
             {/* GRAPHIC */}
             {GraphicsView(String(body))}
-            <BUpdate disabled={!isUpdated || (data.thumbnail && data.thumbnail.length < 1)}
+            <BUpdate disabled={!isUpdated}
                 onCancel={onCancel} onComfirm={onConfirm}
             />
             <Divider color={primary} />

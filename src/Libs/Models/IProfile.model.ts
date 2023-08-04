@@ -6,9 +6,22 @@ export interface IProfile {
     phonenumber: string;
     fname: string;
     lname: string;
-    date_created: Date;
-    date_updated: Date;
-    role: UserRole;
+    date_created: string;
+    date_updated: string;
+    roles: string;
+}
+
+export const DProfile = (): IProfile => {
+    return {
+        id: 0,
+        email: "",
+        phonenumber: "",
+        fname: "",
+        lname: "",
+        date_created: "",
+        date_updated: "",
+        roles: "cashier"
+    };
 }
 
 export enum UserRole {
