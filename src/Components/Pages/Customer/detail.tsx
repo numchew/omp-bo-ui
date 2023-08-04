@@ -65,7 +65,7 @@ export function CustomerDetail() {
                 {data.avatars.map((row: IAvatar, index) => (
                     <Paper className='flex-c-m' elevation={0}
                         sx={{ width: 140, height: 200, backgroundColor: 'rgba(0,0,0,0)' }}>
-                        <img alt="img" src={`${env.APP_API_HOST}/${row.url_bg}`} width={120} height={'auto'} />
+                        <img alt="img" src={row.url_bg !== "" ? `${env.APP_API_HOST}/${row.url_bg}` : `${env.APP_API_HOST}/${row.url}`} width={120} height={'auto'} />
                     </Paper>
                 ))}
             </Box>

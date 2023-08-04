@@ -46,8 +46,6 @@ export function OrderDetail() {
         if (id) {
             OrderService.getContent(id).then(res => {
                 setData(JSON.parse(JSON.stringify(res)));
-                console.log(res);
-
             }).catch((e) => { });
         }
     }, [id])
