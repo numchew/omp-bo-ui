@@ -8,12 +8,13 @@ import { PPagination } from '../../../Common';
 import AvatarService from '../../../../Libs/Services/Avatar.service';
 import Action from '../../../../Libs/Redux/Actions/Action.action';
 import { IAvatar, DAvatar } from '../../../../Libs/Models/IAvatar.model';
+import { RowsPerPage } from '../../../../Libs/Constants/size';
 
 export function AvatarList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { body } = useParams();
-    const [rowsPerPage, setRowsPerPage] = useState(100);
+    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IAvatar[]>([]);
 

@@ -5,7 +5,7 @@ import { Box, Checkbox, FormControlLabel, Typography, Grid, Button } from '@mui/
 import { primary } from '../../../Styles/Theme';
 import { ICollab, DCollab } from '../../../Libs/Models/ICollab.model';
 import CollabService from '../../../Libs/Services/Collab.service';
-import { getSize } from '../../../Libs/Constants/size';
+import { getIcon } from '../../../Libs/Constants/size';
 
 import { BUpdate, HName, Search, TStatus, TypeIC, ThumbnailContainer, TypeEvent } from '../../Common';
 import { ThumbnailView, ThumbnailViewRef } from '../../Common/Thumbnail';
@@ -14,7 +14,7 @@ import { IThumbnail, DThumbnail } from '../../../Libs/Models/IAvatar.model'
 export function CollabDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const size = getSize('thumb');
+    const size = getIcon('thumb');
 
     const [data, setData] = useState<ICollab>(DCollab());
     const [contentD, setContentD] = useState<ICollab>(DCollab());

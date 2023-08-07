@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Autocomplete, Pagination, TextField, Typography } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { RowsPerPage } from '../../Libs/Constants/size';
 
 const optionsPerPage = ['10', '25', '100', '200']
 
@@ -11,12 +12,14 @@ interface IProps {
 }
 
 export function PPagination(props: IProps) {
-  const [rowsPerPage, setRowsPerPage] = useState(100)
-  const [curPage, setCurPage] = useState(1)
-  const [numPage, setNumPage] = useState(
-    Math.ceil(props.quantity / 100),
-  )
+  const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
+  const [numPage, setNumPage] = useState(1);
+  const [curPage, setCurPage] = useState(1);
 
+  React.useEffect(() => {
+    setNumPage(Math.ceil(props.quantity / rowsPerPage));
+    setCurPage(1);
+  }, [props.quantity, rowsPerPage])
   //--------------------------------------------------//
   //--------------------------------------------------//
   ///// Table /////
@@ -24,7 +27,7 @@ export function PPagination(props: IProps) {
     setRowsPerPage(Number(value))
     setNumPage(Math.ceil(props.quantity / Number(value)))
 
-    setCurPage(1)
+    //setCurPage(1)
     props.onChangeRowsPerPage(Number(value))
   }
 
@@ -53,8 +56,7 @@ export function PPagination(props: IProps) {
       <Typography variant="body1"> รายการ </Typography>
       <Pagination
         color="primary"
-        defaultPage={1}
-        siblingCount={0}
+        defaultPage={curPage} siblingCount={1} //boundaryCount={1}
         onChange={handleChangePage}
         count={numPage}
         page={curPage}

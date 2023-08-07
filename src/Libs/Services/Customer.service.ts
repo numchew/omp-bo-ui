@@ -1,5 +1,5 @@
 import { HttpClient } from './httpClient';
-import { ICustomer } from '../Models/ICustomer.model';
+import { ICustomer, IAddress } from '../Models/ICustomer.model';
 
 import env from "./env";
 
@@ -52,6 +52,35 @@ class CustomerService extends HttpClient implements ICustomerService {
             const url = `${env.APP_API_HOST}/customers/${id}`;
             const response = await this.patch(url, customer);
             return response.data as Boolean
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    //--------------------------------------------------//
+    //--------------------------------------------------//
+    public async updateAddress(id: string, address: Partial<IAddress>): Promise<Boolean> {
+        try {
+            const url = `${env.APP_API_HOST}/customers/${id}/address`;
+            const response = await this.post(url, address);
+            return response.data as Boolean
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    public async getAddress(id: number): Promise<IAddress[]> {
+        try {
+            const url = `${env.APP_API_HOST}/customers/${id}/address`;
+            const response = await this.get(url);
+            if (!response.data) {
+                throw new Error("ไม่พบข้อมูล");
+            }
+            const data: any = response.data;
+            if (data.status === "error") {
+                throw new Error("ไม่พบข้อมูล");
+            }
+            return response.data as IAddress[];
         } catch (e) {
             throw e;
         }

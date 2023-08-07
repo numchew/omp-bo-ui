@@ -13,10 +13,11 @@ import { IColor } from '../../Libs/Models/IColor.model';
 import { IAvatar } from '../../Libs/Models/IAvatar.model';
 import { IProduct } from '../../Libs/Models/IProduct.model';
 import { ICollab } from '../../Libs/Models/ICollab.model';
+import { IProfile } from '../../Libs/Models/IProfile.model';
 
 export interface IHeadTabel {
   //id: keyof IStudent
-  id: keyof IOrder | keyof IOrderProduct | keyof ICollab | keyof IProduct | keyof ICustomer | keyof IColor | keyof IAvatar | null
+  id: keyof IProfile | keyof IOrder | keyof IOrderProduct | keyof ICollab | keyof IProduct | keyof ICustomer | keyof IColor | keyof IAvatar | null
   label: string
   align?: 'center' | 'inherit' | 'justify' | 'left' | 'right'
   sort?: boolean

@@ -4,9 +4,10 @@ import { PPagination, Search } from '../../Common';
 import OrderService from '../../../Libs/Services/Order.service';
 import { IOrder } from '../../../Libs/Models/IOrder.model';
 import { TableList } from '.';
+import { RowsPerPage } from '../../../Libs/Constants/size';
 
 export function OrderList() {
-    const [rowsPerPage, setRowsPerPage] = useState(100);
+    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
     const [curPage, setCurPage] = useState(1);
     const [dataServ, setDataServ] = useState<IOrder[]>([]);
     const [data, setData] = useState<IOrder[]>([]);

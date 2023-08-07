@@ -160,3 +160,25 @@ export async function MergeImages(imageUrls: string[],
     const mergedImageURL = canvas.toDataURL('image/png');
     return mergedImageURL;
 }
+
+export async function DrawImage(imageUrls: string, w: number, h: number,
+    callback: (url: File) => void) {
+    const canvas = document.createElement('canvas');
+
+    const img = new Image();
+    await new Promise((resolve) => {
+        img.onload = resolve;
+        img.src = imageUrls;
+    });
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    img && ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(async (blob: any) => {
+        if (blob) {
+            var fileBlob: File = await new File([blob as Blob], 'icon.png', { type: 'image/png' })
+            callback(fileBlob);
+        }
+    });
+
+}

@@ -5,7 +5,7 @@ import { primary } from '../../../../Styles/Theme';
 import { IAvatar, DThumbnail, DAvatar, IThumbnail, CompareAvatars } from '../../../../Libs/Models/IAvatar.model';
 import AvatarService from '../../../../Libs/Services/Avatar.service';
 import { getIcon, getSize } from '../../../../Libs/Constants/size';
-import { MergeImages, ResizeImage } from '../../../../Libs/Extensions/Image.extension';
+import { DrawImage, MergeImages, ResizeImage } from '../../../../Libs/Extensions/Image.extension';
 import { BUpdate, TypeEvent, TStatus, HName } from '../../../Common';
 import { PartDefault, Part2Item, PartColor } from './'
 import env from '../../../../Libs/Services/env';
@@ -131,7 +131,7 @@ export function AvatarDetail() {
                     ic[index] = resize;
                     setIcon(ic);
                 } else {
-                    setIcon([...newIcon, value]);
+                    setIcon([...newIcon, resize]);
                 }
             });
         }
@@ -151,17 +151,31 @@ export function AvatarDetail() {
         if (bg !== "" && url !== "") {
             MergeImages([bg, url], iconS.w, iconS.h,
                 (icon: File) => {
-                    const ic = [...newIcon];
-                    if (ic.length > index) {
-                        ic[index] = icon;
-                        setIcon(ic);
-                    } else {
-                        setIcon([...newIcon, icon]);
-                    }
+                    ResizeImage(icon, iconS.w, iconS.h, (resize: File) => {
+                        const ic = [...newIcon];
+                        if (ic.length > index) {
+                            ic[index] = resize;
+                            setIcon(ic);
+                            thumbs[index].icon = URL.createObjectURL(resize);
+                        } else {
+                            setIcon([...newIcon, icon]);
+                            thumbs[index].icon = URL.createObjectURL(resize);
+                        }
+                        setData(pre => ({ ...pre, thumbnail: thumbs }));
+                    });
 
-                    thumbs[index].icon = URL.createObjectURL(icon);
-                    setData(pre => ({ ...pre, thumbnail: thumbs }));
+                    //setLogo(ic[0]); /////////////////////////////////////////////
+
+                    /* thumbs[index].icon = URL.createObjectURL(icon);
+                    setData(pre => ({ ...pre, thumbnail: thumbs })); */
                 });
+        } else {
+            if (bg !== "") {
+                DrawImage(thumbs[index].bg, iconS.w, iconS.h, (resize: File) => { onUpdateLogo(resize) })
+            }
+            if (url !== "") {
+                DrawImage(thumbs[index].url, iconS.w, iconS.h, (resize: File) => { onUpdateLogo(resize) })
+            }
         }
     }
 
@@ -172,7 +186,7 @@ export function AvatarDetail() {
             if (data.icon === "") {
                 onUpdateLogo(value);    //น่าจะไม่ใช้
             }
-            if (count === 1) {
+            if (count === 1) {  //มีแต่ข้างหน้า
                 onUpdateIcon(value, index);
             }
             ResizeImage(value, sizeS.w, sizeS.h, (resize: File) => {
@@ -224,7 +238,22 @@ export function AvatarDetail() {
     //--------------------------------------------------//
     ///// Button /////, 
     const onConfirm = async () => {
-        //setIsUploadImg(true);
+        /*if (String(body) === "hair") {
+            if (newIcon[0]) {
+                console.log(newIcon[0]);
+
+                onUpdateLogo(newIcon[1]);
+                 ResizeImage(newIcon[0], iconS.w, iconS.h, (resize: File) => {
+                    setLogo(resize);
+                });
+                setTimeout(() => {
+                    onUpload();
+                }, 3000);
+            }
+        } */
+        onUpload();
+    }
+    const onUpload = async () => {
         AvatarService.uploads(body ? body : "", logo, newThumb, newThumbBG, newIcon).then((res: any) => {
             //{ logo: logoUrl, thumbs: fileUrls, icons: iconsUrls, bgs: bgUrls };
             const _d_ = { ...data };
@@ -241,6 +270,10 @@ export function AvatarDetail() {
                 if (_d_.thumbnail[i].icon.indexOf('blob:') > -1) {
                     _d_.thumbnail[i].icon = res.icons[c++];
                 }
+
+            }
+            if (String(body) === "hair" || String(body) === "background") {
+                _d_.icon = _d_.thumbnail[0].icon;
             }
 
             if (_d_.id && _d_.id > 0) {
@@ -279,11 +312,6 @@ export function AvatarDetail() {
                 <>
                     <Box>
                         <Typography variant="h6" >THUMNAIL</Typography>
-                        {/* <canvas ref={mergedCanvasRef}
-                            width={150} height={150}
-                            style={{ border: '1px solid black', display: 'block' }}
-                        >
-                        </canvas> */}
                         <Box className='flex-l-m'>
                             {data.thumbnail && data.thumbnail.length > 0 && data.thumbnail[0].icon &&
                                 <Paper className='flex-c-m'>

@@ -6,10 +6,11 @@ import { PPagination } from '../../Common';
 import ProductService from '../../../Libs/Services/Product.service';
 import { IProduct } from '../../../Libs/Models/IProduct.model';
 import { TableList } from '.';
+import { RowsPerPage } from '../../../Libs/Constants/size';
 
 export function ProductList() {
     const navigate = useNavigate();
-    const [rowsPerPage, setRowsPerPage] = useState(100);
+    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IProduct[]>([]);
 

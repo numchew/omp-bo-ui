@@ -4,6 +4,8 @@ interface IProps {
     disabled?: boolean;
     onCancel?: () => void;
     onComfirm?: () => void;
+    bLabel?: string;
+    nLabel?: string;
 }
 
 export const BUpdate = (props: IProps) => {
@@ -20,14 +22,14 @@ export const BUpdate = (props: IProps) => {
             <Button variant="contained" color="error" onClick={onCancel}
                 sx={{ width: 100 }}
             >
-                BACK
+                {props.bLabel ? props.bLabel : 'BACK'}
             </Button>
             <Box sx={{ px: 1 }}></Box>
             <Button variant="contained" color="secondary" onClick={onComfirm}
                 disabled={props.disabled}
                 sx={{ width: 100 }}
             >
-                SAVE
+                {props.nLabel ? props.nLabel : 'SAVE'}
             </Button>
         </Box>
     )

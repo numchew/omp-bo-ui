@@ -4,6 +4,8 @@ export const minWindowWidth = 730;
 export const thumbWidth = 400;
 export const thumbHeight = 400;
 
+export const RowsPerPage = 100;
+
 export function getSize(part: string) {
     switch (part) {
         case "color": return { w: 400, h: 400 };
@@ -37,6 +39,6 @@ export function getSize(part: string) {
 export function getIcon(part: string) {
     switch (part) {
         case "background": return { w: 267, h: 400 };
-        default: return { w: 400, h: 400 };
+        default: return { w: 200, h: 200 };
     }
 }

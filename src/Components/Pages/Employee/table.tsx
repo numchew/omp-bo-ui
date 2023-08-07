@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import {
-  Button,
   Paper,
   Table,
   TableBody,
@@ -12,25 +11,23 @@ import {
 } from "@mui/material";
 
 import HTable, { IHeadTabel } from '../../Layout/HTable';
-import { IOrder } from "../../../Libs/Models/IOrder.model";
-import { day } from '../../../Libs/Extensions/Day.extension';
 import { OrderType, stableSort } from '../../../Libs/Extensions/Number.extension';
+import { IProfile } from '../../../Libs/Models/IProfile.model';
+import { Button } from '@mui/material';
 
 const headerCells: IHeadTabel[] = [
-  { id: "id", label: "ORDER ID", align: "left", sort: true, width: 120 },
-  { id: "date_ordered", label: "DATE", align: "left", sort: true, width: 100 },
-  { id: null, label: "Name", align: "center", sort: true, width: 200 },
-  { id: "shipping", label: "SHIP", align: "left", sort: true, width: 220 },
-  { id: "total", label: "PRICE", align: "left", sort: true, width: 50 },
-  { id: "status", label: "STATUS", align: "center", sort: true, width: 150 },
-  { id: "tracking", label: "TRACKING NO.", align: "center", sort: true, width: 150 },
-  { id: null, label: "", align: "center", sort: false },
+  { id: "_id", label: "EMPLOYEE ID", align: "left", sort: true, width: 140 },
+  { id: "email", label: "EMAIL", align: "left", sort: true, width: 180 },
+  { id: null, label: "NAME", align: "left", sort: true, width: 180 },
+  { id: "phonenumber", label: "TEL", align: "center", sort: true, width: 120 },
+  { id: "roles", label: "ROLE", align: "center", sort: true, width: 120 },
+  { id: null, label: "", align: "left", sort: false },
 ];
 
 const maxWidth = 1000
 
 interface IProps {
-  data?: IOrder[];
+  data?: IProfile[];
   isCanSort: boolean;
   isCanView: boolean;
 }
@@ -40,14 +37,11 @@ export const TableList = (props: IProps) => {
   const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 
-
-  const onClickView = (value: IOrder) => {
-    //dispatch(Action.getOrderDetail(value));
-    navigate(`/order/` + value._id);
+  const onClickView = (value: IProfile) => {
+    navigate(`/employee/` + value._id);
   };
-  //variant="dense"
 
-  const sortHandler = (id: keyof IOrder) => {
+  const sortHandler = (id: keyof IProfile) => {
     if (orderType === OrderType.Asc) {
       setOrderType(OrderType.Desc);
     } else {
@@ -62,24 +56,20 @@ export const TableList = (props: IProps) => {
       <Table size="small" sx={{ minWidth: maxWidth }} aria-label="customized table">
         <HTable cells={headerCells} sortHandler={sortHandler} isCanSort={props.isCanSort} />
         <TableBody>
-          {props.data && stableSort(props.data, orderType, orderBy).map((row: IOrder) => (
-            <TableRow key={row._id}>
+          {props.data && stableSort(props.data, orderType, orderBy).map((row: IProfile) => (
+            <TableRow key={row.id}>
               <TableCell align="left">{row._id}</TableCell>
-              <TableCell align="left">{day(row.date_ordered)}</TableCell>
-              <TableCell align="center">{row.customer && row.customer.email && row.customer.email}</TableCell>
-              <TableCell align="left">{row.shipping}</TableCell>
-              <TableCell align="center">{row.total}</TableCell>
-              <TableCell align="center">{row.status}</TableCell>
-              <TableCell align="center">{row.tracking}</TableCell>
-
+              <TableCell align="left">{row.email}</TableCell>
+              <TableCell align="left">{`${row.fname} ${row.lname}`}</TableCell>
+              <TableCell align="left">{row.phonenumber}</TableCell>
+              <TableCell align="left">{row.roles.toUpperCase()}</TableCell>
               <TableCell align="left" colSpan={2}>
                 {props.isCanView &&
                   <Button variant="contained" size="small" sx={{ px: 3 }} onClick={() => { onClickView(row); }}>
-                    <Typography variant="body1">VIEW</Typography>
+                    <Typography variant="body1">EDIT</Typography>
                   </Button>
                 }
               </TableCell>
-
             </TableRow>
           ))}
         </TableBody>

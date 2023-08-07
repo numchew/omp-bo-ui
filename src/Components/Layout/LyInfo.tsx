@@ -17,6 +17,8 @@ export default function LyInfo() {
       setLabel('CHARACTER')
     } else if (location.pathname.indexOf('/productlist') > -1) {
       setLabel('PRODUCT LIST')
+    } else if (location.pathname.indexOf('/employee') > -1) {
+      setLabel('EMPLOYEE')
     }
   }, [location.pathname])
 

@@ -12,6 +12,8 @@ export interface IUserProfileService {
   getUserName: () => string | null;
   getAccessToken: () => string | null;
   forgotPassword: (email: string) => Promise<string>
+  findAll(): Promise<IProfile[]>;
+  findOne(email: string): Promise<IProfile>
 }
 
 class UserProfile extends HttpClient implements IUserProfileService {
@@ -133,6 +135,73 @@ class UserProfile extends HttpClient implements IUserProfileService {
         throw new Error("ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
       }
       return "สำเร็จ";
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async updateData(_id: string, profile: IProfile): Promise<IProfile> {
+    try {
+      const url = `${env.APP_API_HOST}/employees/${_id}`;
+      const response = await this.patch(url, profile);
+
+      if (response.status === undefined) {  //server failure
+        throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
+      }
+
+      if (!response.data) {
+        throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง");
+      }
+      const data: any = response.data;
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async findAll(): Promise<IProfile[]> {
+    try {
+      const url = `${env.APP_API_HOST}/employees/roles`;
+      const response = await this.get(url);
+      if (!response.data) {
+        throw new Error("ไม่พบข้อมูล");
+      }
+      const data: any = response.data;
+      if (data.status === "error") {
+        throw new Error("ไม่พบข้อมูล");
+      }
+      return data as IProfile[];
+    } catch (e) {
+      throw e;
+    }
+  }
+  public async findOne(email: string): Promise<IProfile> {
+    try {
+      const url = `${env.APP_API_HOST}/employees/${email}`;
+      const response = await this.get(url);
+      if (!response.data) {
+        throw new Error("ไม่พบข้อมูล");
+      }
+      const data: any = response.data;
+      if (data.status === "error") {
+        throw new Error("ไม่พบข้อมูล");
+      }
+      return data as IProfile;
+    } catch (e) {
+      throw e;
+    }
+  }
+  public async deleteOne(_id: string): Promise<void> {
+    try {
+      const url = `${env.APP_API_HOST}/employees/${_id}`;
+      const response = await this.delete(url);
+      if (!response.data) {
+        throw new Error("ไม่พบข้อมูล");
+      }
+      const data: any = response.data;
+      if (data.status === "error") {
+        throw new Error("ไม่พบข้อมูล");
+      }
     } catch (e) {
       throw e;
     }

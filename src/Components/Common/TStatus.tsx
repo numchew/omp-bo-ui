@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import Typography from '@mui/material/Typography';
+import { TextField } from '@mui/material';
 
 interface IProps {
     title: string;
@@ -22,3 +23,48 @@ export function TStatus(props: IProps) {
         </div>
     )
 }
+
+
+//--------------------------------------------------//
+//--------------------------------------------------//
+interface IAddressProps {
+    id: number;
+    label?: string;
+    dValue?: string;
+    onChange?: (id: number, value: string) => void;
+}
+
+export interface IAddressRef {
+    setValue: (m: string) => void;
+}
+
+export const AddressBox = forwardRef<IAddressRef, IAddressProps>(({ id, label, dValue, onChange }, ref) => {
+    const [msg, setMsg] = useState("")
+
+    useImperativeHandle(ref, () => ({
+        setValue: (m: string) => { setMsg(m); },
+    }));
+
+    const showMessage = (e: any) => {
+        e.preventDefault();
+        setMsg(e.target.value);
+        onChange?.(id, e.target.value);
+    };
+
+    //--------------------------------------------------//
+    //--------------------------------------------------//
+    return (
+        <div className="dis-flex flex-row">
+            <Typography variant="h6" sx={{ width: 100 }}>{label}</Typography>
+            <TextField multiline rows={3}
+                defaultValue={dValue} size="small"
+                variant="outlined" sx={{ width: 250 }}
+                onChange={showMessage}
+                value={msg}
+            />
+        </div>
+    )
+});
+
+//--------------------------------------------------//
+//--------------------------------------------------//

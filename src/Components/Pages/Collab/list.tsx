@@ -8,11 +8,12 @@ import { PPagination } from '../../Common';
 import CollabService from '../../../Libs/Services/Collab.service';
 import { ICollab, DCollab } from '../../../Libs/Models/ICollab.model';
 import Action from '../../../Libs/Redux/Actions/Action.action';
+import { RowsPerPage } from '../../../Libs/Constants/size';
 
 export function CollabList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [rowsPerPage, setRowsPerPage] = useState(100);
+    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
     const [curPage, setCurPage] = useState(1);
     //const [dataServ, setDataServ] = useState<ICollab[]>([]);
     const [data, setData] = useState<ICollab[]>([]);

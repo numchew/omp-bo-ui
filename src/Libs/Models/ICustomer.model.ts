@@ -85,3 +85,14 @@ export const DCustomer = (): ICustomer => {
         orders: []
     }
 }
+
+export const DAddress = (): IAddress => {
+    return {
+        id: -1,
+        _id: 0,    //index
+        name: "",
+        phonenumber: "",
+        address: "",
+        postcode: 0,
+    }
+}

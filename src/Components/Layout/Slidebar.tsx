@@ -22,7 +22,6 @@ export function Slidebar() {
   const [open, setOpen] = useState(false);
   const [roles, setRoles] = useState<string | null>(null);
 
-
   useEffect(() => {
     setRoles(localStorage.getItem("roles"))
   }, [])
@@ -124,24 +123,10 @@ export function Slidebar() {
 
                 <MenuBtn value="character" />
                 <MenuBtn value="product list" />
+                {(roles === UserRole.S || roles === UserRole.A) && <MenuBtn value="employee" />}
               </>}
           </RadioGroup>
         </FormControl>
-
-
-        {/* <Snackbar
-          open={open}
-          autoHideDuration={5000}
-          onClose={() => setOpen(false)}
-        >
-          <Alert
-            onClose={() => setOpen(false)}
-            severity="warning"
-            sx={{ width: "100%" }}
-          >
-            กรุณาเลือกนักศึกษา!
-          </Alert>
-        </Snackbar> */}
       </Box>
     </Drawer>
   );

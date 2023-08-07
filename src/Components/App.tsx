@@ -14,6 +14,7 @@ import { ColorList, ColorDetail } from './Pages/Avatar/Color';
 import { AvatarList, AvatarDetail } from './Pages/Avatar/Avatar';
 import { CollabList, CollabDetail } from './Pages/Collab';
 import { ProductList, ProductDetail } from './Pages/Product';
+import { EmployeeList, EmployeeDetail } from './Pages/Employee';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -66,6 +67,9 @@ function App() {
 
               <Route path="/productlist" element={<ProductList />} />
               <Route path="/productlist/:id" element={<ProductDetail />} />
+
+              <Route path="/employee" element={<EmployeeList />} />
+              <Route path="/employee/:id" element={<EmployeeDetail />} />
             </Route>
           </Route>
         </Routes>

@@ -6,10 +6,11 @@ import { TableList } from '.';
 import { PPagination } from '../../../Common';
 import ColorService from '../../../../Libs/Services/Color.service';
 import { IColor } from '../../../../Libs/Models/IColor.model';
+import { RowsPerPage } from '../../../../Libs/Constants/size';
 
 export function ColorList() {
     const navigate = useNavigate();
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(RowsPerPage);
     const [curPage, setCurPage] = useState(1);
     const [data, setData] = useState<IColor[]>([]);
 

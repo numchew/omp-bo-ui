@@ -1,7 +1,7 @@
 export enum OrderStatus {
-    PAYMENT_WAITING = 'playment waiting',   //รอชำระ
-    PAYMENT_SUCCESS = 'playment success',   //ชำระแล้ว
-    PAYMENT_FAILED = 'playment failed',     //ชำระล้มเหลว
+    PAYMENT_WAITING = 'payment waiting',   //รอชำระ
+    PAYMENT_SUCCESS = 'payment success',   //ชำระแล้ว
+    PAYMENT_FAILED = 'payment failed',     //ชำระล้มเหลว
 
     DELIVERY_WAITING = 'delivery waiting',  //รอจัดส่ง
     DELIVERY = 'delivery',  //กำลังจัดส่ง
@@ -11,3 +11,4 @@ export enum OrderStatus {
     CANCEL = 'cancel',     //ยกเลิก
     FAILED = 'failed'      //ล้มเหลว
 }
+

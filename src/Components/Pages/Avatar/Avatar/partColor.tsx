@@ -112,17 +112,15 @@ export const PartColor = (props: IDefault) => {
                     <Typography variant="h6">GRAPHIC</Typography>
                     <Box className="flex-w flex-row-l">
                         {props.data.map((row: IThumbnail, index: number) => (
-                            <>
-                                <ColorAvatar index={index} options={colorList} count={props.count}
-                                    onChangeColorHandler={onChangeColor}
-                                    onChangeThumbHandler={onUpdateGraphic}
-                                    onChangeThumbBGHandler={onUpdateBG}
-                                    onDeleteHandler={onDeleteHandler}
-                                    src={row.url} bg={row.bg} icon={row.icon}
-                                    color={row.color ? row.color : ""}
-                                    key={index}
-                                />
-                            </>
+                            <ColorAvatar index={index} options={colorList} count={props.count}
+                                onChangeColorHandler={onChangeColor}
+                                onChangeThumbHandler={onUpdateGraphic}
+                                onChangeThumbBGHandler={onUpdateBG}
+                                onDeleteHandler={onDeleteHandler}
+                                src={row.url} bg={row.bg} icon={row.icon}
+                                color={row.color ? row.color : ""}
+                                key={index}
+                            />
                         ))}
                         {isShow ?
                             <ColorAvatar index={props.data.length} options={colorList} count={props.count}

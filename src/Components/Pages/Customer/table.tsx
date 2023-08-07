@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 import {
   Button,
   Paper,
@@ -14,19 +13,19 @@ import {
 
 import HTable, { IHeadTabel } from '../../Layout/HTable';
 import { OrderType, stableSort } from '../../../Libs/Extensions/Number.extension';
-import Action from '../../../Libs/Redux/Actions/Action.action';
 import { ICustomer } from '../../../Libs/Models/ICustomer.model';
 
 const headerCells: IHeadTabel[] = [
   { id: "_id", label: "CUSTOMER ID", align: "left", sort: true, width: 150 },
   { id: "username", label: "NAME", align: "center", sort: true, width: 200 },
-  { id: "phonenumber", label: "TEL", align: "center", sort: true, width: 200 },
-  { id: null, label: "SHIP", align: "left", sort: true, width: 100 },
+  { id: "phonenumber", label: "TEL", align: "center", sort: true, width: 100 },
+  /*  { id: null, label: "SHIP", align: "center", sort: true, width: 100 }, */
+  { id: null, label: "Tracking No.", align: "center", sort: true, width: 150 },
   { id: "status", label: "STATUS", align: "center", sort: true, width: 150 },
   { id: null, label: "", align: "left", sort: false },
 ];
 
-const maxWidth = 700
+const maxWidth = 1000
 
 interface IProps {
   data?: ICustomer[];
@@ -39,10 +38,7 @@ export const TableList = (props: IProps) => {
   const [orderBy, setOrderBy] = useState("index");
   const [orderType, setOrderType] = useState(OrderType.Asc);
 
-  const dispatch = useDispatch();
-
   const onClickView = (value: ICustomer) => {
-    dispatch(Action.getCustomerDetail(value));
     //navigate(`/customer/` + value._id);
     navigate(`/customer/` + value.email);
   };
@@ -68,10 +64,10 @@ export const TableList = (props: IProps) => {
               <TableCell align="left">{row._id}</TableCell>
               <TableCell align="left">{row.username}</TableCell>
               <TableCell align="center">{row.phonenumber}</TableCell>
-              <TableCell align="left">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].shipping}</TableCell>
+              {/* <TableCell align="left">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].shipping}</TableCell> */}
+              <TableCell align="center">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].tracking}</TableCell>
               <TableCell align="center">{row.orders[row.orders.length - 1] && row.orders[row.orders.length - 1].status}</TableCell>
-              {/*<TableCell align="center">{row.status}</TableCell>
-              <TableCell align="center">{row.tracking}</TableCell> */}
+              {/*<TableCell align="center">{row.status}</TableCell>*/}
 
               <TableCell align="left" colSpan={2}>
                 {props.isCanView &&

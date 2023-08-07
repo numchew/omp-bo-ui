@@ -1,11 +1,13 @@
 // Employee Profile //
 export interface IProfile {
     id?: number;
+    _id: string;
     email: string;
     //password: string;
     phonenumber: string;
     fname: string;
     lname: string;
+    username: string;
     date_created: string;
     date_updated: string;
     roles: string;
@@ -14,10 +16,12 @@ export interface IProfile {
 export const DProfile = (): IProfile => {
     return {
         id: 0,
+        _id: "",
         email: "",
         phonenumber: "",
         fname: "",
         lname: "",
+        username: "",
         date_created: "",
         date_updated: "",
         roles: "cashier"
@@ -33,7 +37,7 @@ export enum UserRole {
      ACCOUNTANT = 'accountant',
      USER = 'user', */
     S = 'developer',  //Developer
-    A = 'allaccess',  //All access
+    A = 'all access',  //All access
     B = 'asset',      //Asset
     C = 'cashier',    //Cashier
 }

@@ -67,8 +67,6 @@ export const ColorAvatar = (props: ColorAvatarProps) => {
     //--------------------------------------------------//
     //--------------------------------------------------//
     const onChangeHandler = (value: IColor | null) => {
-        console.log(value);
-
         if (value) {
             props.onChangeColorHandler && props.onChangeColorHandler(value, props.index);
         } else {

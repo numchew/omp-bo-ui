@@ -12,9 +12,7 @@ export interface IColorService {
 }
 
 class ColorService extends HttpClient implements IColorService {
-    /* constructor() {
-        super();
-    } */
+    /* constructor() { super(); } */
     public async create(color: Partial<IColor>, thumb: File | null) {
         try {
             const formData = new FormData();
@@ -41,24 +39,6 @@ class ColorService extends HttpClient implements IColorService {
             throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
         }
     }
-
-    /* public async updateContent(id: string, color: Partial<IColor>, thumb: File | null) {
-        try {
-            const url = `${env.APP_API_HOST}/colors/id`;
-            const response = await this.patch(url, { ...color, file: thumb });
-            if (response.status === undefined) {  //server failure
-                throw new Error("ไม่สำเร็จ กรุณารอสักครู่ และลองใหม่อีกครั้งภายหลัง");
-            }
-
-            if (!response.data) {
-                throw new Error("ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง";
-            }
-            const data: any = response.data;
-            return data;
-        } catch (e) {
-            throw e;
-        }
-    } */
 
     public async getContentAll(): Promise<IColor[]> {
         try {
