@@ -32,7 +32,7 @@ export function CustomerDetail() {
     const [orders, setOrders] = useState<IOrder[]>([]);
     const [isUpdated, setIsUpdated] = useState(false);
 
-    let updatedAddresses: string[] = ["", "", "", ""];
+    const updatedAddresses = React.useRef(["", "", "", ""]);
 
     useEffect(() => {
         if (id) {
@@ -45,7 +45,7 @@ export function CustomerDetail() {
     }, [id])
 
     useEffect(() => {
-        updatedAddresses = data.address.map((item: IAddress) => item.address);
+        updatedAddresses.current = data.address.map((item: IAddress) => item.address);
     }, [data])
 
     //--------------------------------------------------//
@@ -55,7 +55,7 @@ export function CustomerDetail() {
     };
 
     const onChangeAddress = (id: number, value: string) => {
-        updatedAddresses[id - 1] = value;
+        updatedAddresses.current[id - 1] = value;
     }
 
     const onChangeNameHandler = (value: string) => {
@@ -71,11 +71,11 @@ export function CustomerDetail() {
     const onConfirm = () => {
         if (id) {
             var newAddress = [...data.address];
-            for (var i = 0; i < updatedAddresses.length; i++) {
+            for (var i = 0; i < updatedAddresses.current.length; i++) {
                 if (!newAddress[i]) {
                     newAddress[i] = DAddress();
                 }
-                newAddress[i].address = updatedAddresses[i];
+                newAddress[i].address = updatedAddresses.current[i];
                 newAddress[i]._id = i + 1;
             }
 
