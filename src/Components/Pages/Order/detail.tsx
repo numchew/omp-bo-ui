@@ -117,7 +117,7 @@ export function OrderDetail() {
             case 'delivery': status = OrderStatus.SUCCESSFUL; break;
             default: status = OrderStatus.SUCCESSFUL; break;
         }
-        OrderService.updateStatus(data._id, status).then(
+        OrderService.updateContent(data._id, { status: status }).then(
             (res) => { setData(res) }
         );
     }
